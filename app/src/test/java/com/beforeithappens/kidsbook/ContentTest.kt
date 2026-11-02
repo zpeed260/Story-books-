@@ -5,6 +5,9 @@ import com.beforeithappens.kidsbook.data.BookContent
 import com.beforeithappens.kidsbook.data.Pin
 import com.beforeithappens.kidsbook.data.ScoreEntry
 import com.beforeithappens.kidsbook.data.UserData
+import com.beforeithappens.kidsbook.data.CONTENT_VERSION
+import com.beforeithappens.kidsbook.data.migrated
+import com.beforeithappens.kidsbook.data.spokenLine
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -18,28 +21,35 @@ class ContentTest {
         File("src/main/assets/book.json").readText(),
     )
 
-    private val scenes = setOf("shop", "school", "court", "party", "home", "outside", "beach", "bush", "screen", "plain")
+    private val scenes = setOf("shop", "school", "court", "party", "home", "outside", "beach", "bush", "screen", "plain", "canteen", "car")
     private val faces = setOf("happy", "proud", "sad", "worried", "cross", "surprised", "smirk", "laugh", "neutral")
     private val arms = setOf("down", "wave", "stop", "point", "hold", "up", "hips", "give")
-    private val items = setOf("phone", "lolly", "ball", "controller", "invite", "book")
+    private val items = setOf("phone", "lolly", "ball", "controller", "invite", "book", "money")
 
-    @Test fun hasAll22StoriesInThreeParts() {
-        assertEquals(22, content.allStories.size)
-        assertEquals((1..22).toList(), content.allStories.map { it.id })
-        assertEquals(3, content.parts.size)
+    @Test fun has32EntriesInFiveSections() {
+        assertEquals(32, content.allStories.size)
+        assertEquals((1..32).toList(), content.allStories.map { it.id })
+        assertEquals(
+            listOf("Friends and fitting in", "Tricky choices", "Phones, games and group chats", "Big feelings", "Keeping safe"),
+            content.parts.map { it.name },
+        )
+        assertEquals(listOf(8, 9, 6, 6, 3), content.parts.map { content.storiesInPart(it.id).size })
         content.parts.forEach { part ->
             assertEquals(part.startsAtStory, content.storiesInPart(part.id).first().id)
         }
     }
 
-    @Test fun everyStoryIsComplete() {
+    @Test fun everyEntryIsComplete() {
         content.allStories.forEach { s ->
-            assertEquals("story ${s.id} panels", 3, s.panels.size)
-            assertEquals("story ${s.id} remember", 3, s.remember.size)
-            assertTrue("story ${s.id} say this", s.sayThis.isNotEmpty())
-            assertTrue(s.magicWords.isNotBlank() && s.happening.isNotBlank() && s.tryIt.isNotBlank())
+            assertEquals("entry ${s.id} panels", 3, s.panels.size)
+            assertEquals("entry ${s.id} figured", 3, s.figured.size)
+            assertTrue("entry ${s.id} say now", s.sayNow.isNotEmpty())
+            assertTrue(s.day.isNotBlank() && s.journal.length > 100)
+            assertTrue(s.magicWords.isNotBlank() && s.tryIt.isNotBlank())
             assertTrue(s.grownUp.ask.isNotBlank() && s.grownUp.tip.isNotBlank())
         }
+        // 'Later' is left out of six entries in the journal.
+        assertEquals(26, content.allStories.count { it.later != null })
     }
 
     @Test fun comicDataIsDrawable() {
@@ -54,7 +64,7 @@ class ContentTest {
                     assertTrue(person.x in 0f..1f)
                 }
                 p.speech.forEach { sp ->
-                    sp.speaker?.let { assertTrue("story ${s.id} speaker $it", it in p.people.indices) }
+                    sp.speaker?.let { assertTrue("entry ${s.id} speaker $it", it in p.people.indices) }
                     assertTrue(sp.kind == "say" || sp.kind == "think")
                 }
             }
@@ -63,28 +73,39 @@ class ContentTest {
 
     @Test fun panelDescriptionsNameTheSpeaker() {
         val p = content.story(1)!!.panels[0]
-        assertEquals("Panel 1: At lunch. Theo says: Do what I say or you're not my friend!", content.describePanel(p, 1))
-        val think = content.story(1)!!.panels[1]
-        assertTrue(content.describePanel(think, 2).contains("Sam thinks:"))
+        assertEquals("Panel 1: Lunch. Theo in charge (again). Theo says: We're playing MY game. Or you're not my friend.",
+            content.describePanel(p, 1))
+        assertTrue(content.describePanel(content.story(1)!!.panels[1], 2).contains("Alex thinks:"))
+        assertTrue(content.describePanel(content.story(13)!!.panels[0], 1).startsWith("Panel 1: A message from Kai. On screen:"))
     }
 
-    @Test fun gamesMatchTheBook() {
+    @Test fun sayNowLinesAreSpokenWithoutStageDirections() {
+        assertEquals("You do it.", spokenLine("\"You do it.\" (and walk off)"))
+        assertEquals("Stop and stay.", spokenLine("Stop and stay."))
+        assertEquals("Message the person privately: You OK?".let { "You OK?" }, spokenLine("Message the person privately: \"You OK?\""))
+    }
+
+    @Test fun gamesMatchTheJournal() {
         val g = content.stories.games
-        assertEquals(11, g.surpriseOrTell.size)
-        assertEquals(4, g.surpriseOrTell.count { it.isSurprise })
+        assertEquals(12, g.keepOrTell.size)
+        assertEquals(listOf(1, 3, 5, 7, 10, 12), g.keepOrTell.withIndex().filter { it.value.isKeep }.map { it.index + 1 })
         assertEquals(27, g.whatIfCards.size)
         assertEquals(27, content.book.whatIfStories.size)
         g.whatIfCards.indices.forEach { assertNotNull(content.storyForWhatIf(it)) }
-        assertEquals(7, g.goodOrBossyFriend.good.size)
-        assertEquals(7, g.goodOrBossyFriend.bossy.size)
-        assertEquals(5, content.stories.activities.calmPlan.size)
-        assertEquals(4, content.stories.activities.calmPrompts.size)
+        assertEquals(8, g.goodOrBossyFriend.good.size)
+        assertEquals(8, g.goodOrBossyFriend.bossy.size)
+        val a = content.stories.activities
+        assertEquals(5, a.calmPlan.size)
+        assertEquals(4, a.calmPrompts.size)
+        assertEquals(14, a.techRules.size)
+        assertEquals(10, a.exitLines.size)
     }
 
     @Test fun crewAreAllDefined() {
-        assertEquals(6, content.book.crew.size)
+        assertEquals(listOf("alex", "zara", "sam", "kai", "ruby", "theo", "mia"), content.book.crew.map { it.who })
         content.book.crew.forEach { assertNotNull(content.character(it.who)) }
         assertTrue(content.character("sam")!!.glasses)
+        assertEquals("7", content.character("kai")!!.number)
     }
 
     @Test fun kidsHelpNumbersAreDialable() {
@@ -107,6 +128,16 @@ class ContentTest {
         assertTrue(Pin.isValid("0007"))
         assertFalse(Pin.isValid("12a4"))
         assertFalse(data.pinHash!!.contains("1234"))
+    }
+
+    @Test fun oldProgressIsClearedForTheNewEdition() {
+        val old = UserData(name = "Alex", readStories = setOf(1, 2), magicCollected = setOf(3), myTurn = mapOf(1 to "x"))
+        val m = old.migrated()
+        assertEquals(CONTENT_VERSION, m.contentVersion)
+        assertTrue(m.readStories.isEmpty() && m.magicCollected.isEmpty() && m.myTurn.isEmpty())
+        assertEquals("Alex", m.name)
+        val fresh = UserData(contentVersion = CONTENT_VERSION, readStories = setOf(5))
+        assertEquals(fresh, fresh.migrated())
     }
 
     @Test fun userDataRoundTrips() {

@@ -54,11 +54,14 @@ import com.beforeithappens.kidsbook.data.Panel
 import com.beforeithappens.kidsbook.data.PanelPerson
 import com.beforeithappens.kidsbook.data.Speech
 import com.beforeithappens.kidsbook.ui.theme.BookColors
-import com.beforeithappens.kidsbook.ui.theme.forWhiteText
+import com.beforeithappens.kidsbook.ui.theme.HandStyle
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.unit.sp
 import com.beforeithappens.kidsbook.ui.theme.parseHex
 import androidx.compose.material3.MaterialTheme
 
-private val Dark = Color(0xFF2B2B2B)
+private val Dark = Color(0xFF262626)
 private val Cheek = Color(0xFFF48FB1)
 private val Tear = Color(0xFF4FA3E0)
 
@@ -84,36 +87,36 @@ fun ComicPanel(
     Column(
         modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .border(2.dp, Dark, RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(6.dp))
+            .border(2.5.dp, Dark, RoundedCornerShape(6.dp))
             .clickable(onClickLabel = "hear this panel", onClick = onTap)
             .clearAndSetSemantics {
                 contentDescription = description
                 role = Role.Button
             },
     ) {
+        // Caption bar: a pastel strip in the section colour, like the printed journal.
         Row(
             Modifier
                 .fillMaxWidth()
-                .background(partColor.forWhiteText())
+                .background(lerp(Color.White, partColor, 0.32f))
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.size(28.dp).background(Color.White, CircleShape),
+                Modifier.size(28.dp).border(1.5.dp, Dark, CircleShape).background(Color.White, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("$number", color = partColor.forWhiteText(), fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelMedium)
+                Text("$number", color = Dark, style = HandStyle.copy(fontSize = 18.sp, lineHeight = 20.sp))
             }
             Spacer(Modifier.size(10.dp))
-            Text(panel.caption, color = Color.White, style = MaterialTheme.typography.titleSmall)
+            Text(panel.caption, color = Dark, style = HandStyle)
         }
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val panelWidth = maxWidth
             Canvas(Modifier.matchParentSize()) {
                 val groundY = size.height - GroundInset.toPx()
-                drawScene(panel.scene, groundY)
+                drawScene(panel.scene, groundY, density)
                 drawPeople(content, panel.people, groundY, KidHeight.toPx())
             }
             Column(Modifier.fillMaxWidth().padding(top = 10.dp)) {
@@ -132,7 +135,7 @@ fun ComicPanel(
 fun ComicThumbnail(content: BookContent, panel: Panel, modifier: Modifier = Modifier) {
     Canvas(modifier.clip(RoundedCornerShape(12.dp)).border(1.5.dp, Dark, RoundedCornerShape(12.dp))) {
         val groundY = size.height * 0.92f
-        drawScene(panel.scene, groundY)
+        drawScene(panel.scene, groundY, density * 0.5f)
         drawPeople(content, panel.people, groundY, size.height * 0.62f)
     }
 }
@@ -145,7 +148,7 @@ fun CharacterPortrait(
     modifier: Modifier = Modifier,
     face: String = "happy",
     arm: String = "wave",
-    background: Color = Color(0xFFE6F2EF),
+    background: Color = Color(0xFFEAF4F8),
 ) {
     Canvas(modifier.clip(CircleShape).background(background)) {
         val spec = content.character(who) ?: return@Canvas
@@ -176,8 +179,7 @@ private fun SpeechBubble(panel: Panel, speech: Speech, panelWidth: Dp) {
                 Text(
                     speech.text,
                     color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
+                    style = HandStyle,
                     modifier = Modifier
                         .background(Color(0xFF263238), RoundedCornerShape(6.dp))
                         .border(2.dp, Color(0xFF80CBC4), RoundedCornerShape(6.dp))
@@ -187,8 +189,7 @@ private fun SpeechBubble(panel: Panel, speech: Speech, panelWidth: Dp) {
                 val think = speech.kind == "think"
                 Text(
                     speech.text,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
+                    style = HandStyle,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .background(Color.White, RoundedCornerShape(if (think) 28.dp else 16.dp))
@@ -224,7 +225,7 @@ private fun SpeechBubble(panel: Panel, speech: Speech, panelWidth: Dp) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Drawing                                                              */
+/* Drawing: line-drawn journal style (ink outlines, pastel colour)      */
 /* ------------------------------------------------------------------ */
 
 private fun DrawScope.drawPeople(content: BookContent, people: List<PanelPerson>, groundY: Float, kidHeight: Float) {
@@ -234,9 +235,16 @@ private fun DrawScope.drawPeople(content: BookContent, people: List<PanelPerson>
     }
 }
 
+/** Fills a shape, then outlines it in ink, like a pen drawing coloured in. */
+private inline fun DrawScope.inked(stroke: Float, fill: () -> Unit, outline: (Stroke) -> Unit) {
+    fill()
+    outline(Stroke(stroke, cap = StrokeCap.Round, join = androidx.compose.ui.graphics.StrokeJoin.Round))
+}
+
 fun DrawScope.drawCharacter(spec: CharacterSpec, p: PanelPerson, cx: Float, groundY: Float, kidHeight: Float) {
     val h = kidHeight * spec.height
     val d = if (p.facingLeft) -1f else 1f
+    val ink = (h * 0.018f).coerceAtLeast(1.4f)
     val skin = parseHex(spec.skin)
     val hair = parseHex(spec.hair)
     val top = parseHex(spec.top)
@@ -248,141 +256,179 @@ fun DrawScope.drawCharacter(spec: CharacterSpec, p: PanelPerson, cx: Float, grou
 
     // Hair that sits behind the head.
     when (spec.hairStyle) {
-        "long" -> drawRoundRect(
-            hair,
-            topLeft = Offset(head.x - 1.12f * r, head.y - 0.95f * r),
-            size = Size(2.24f * r, 2.25f * r),
-            cornerRadius = CornerRadius(0.6f * r),
-        )
-        "ponytail" -> drawOval(
-            hair,
-            topLeft = Offset(head.x - d * 1.05f * r - 0.38f * r, head.y - 0.55f * r),
-            size = Size(0.76f * r, 1.35f * r),
-        )
-        "puffs" -> {
-            drawCircle(hair, 0.46f * r, Offset(head.x - 0.82f * r, head.y - 0.82f * r))
-            drawCircle(hair, 0.46f * r, Offset(head.x + 0.82f * r, head.y - 0.82f * r))
+        "long" -> inked(ink, {
+            drawRoundRect(hair, Offset(head.x - 1.12f * r, head.y - 0.95f * r), Size(2.24f * r, 2.5f * r), CornerRadius(0.6f * r))
+        }) { drawRoundRect(Dark, Offset(head.x - 1.12f * r, head.y - 0.95f * r), Size(2.24f * r, 2.5f * r), CornerRadius(0.6f * r), style = it) }
+        "ponytail" -> inked(ink, {
+            drawOval(hair, Offset(head.x - d * 1.05f * r - 0.38f * r, head.y - 0.55f * r), Size(0.76f * r, 1.35f * r))
+        }) { drawOval(Dark, Offset(head.x - d * 1.05f * r - 0.38f * r, head.y - 0.55f * r), Size(0.76f * r, 1.35f * r), style = it) }
+        "puffs" -> listOf(-1f, 1f).forEach { side ->
+            val c = Offset(head.x + side * 0.82f * r, head.y - 0.82f * r)
+            drawCircle(hair, 0.46f * r, c)
+            drawCircle(Dark, 0.46f * r, c, style = Stroke(ink))
         }
     }
 
-    // Legs and shoes.
-    val legTop = groundY - 0.30f * h
+    // Legs: outlined rounded strips, with shoes.
+    val legTop = groundY - 0.32f * h
+    val legW = 0.1f * h
     for (side in listOf(-1f, 1f)) {
-        val lx = cx + side * 0.08f * h
-        drawLine(legs, Offset(lx, legTop), Offset(lx, groundY - 0.04f * h), 0.10f * h, StrokeCap.Round)
-        drawOval(
-            Dark,
-            topLeft = Offset(lx - 0.075f * h + d * 0.02f * h, groundY - 0.07f * h),
-            size = Size(0.15f * h, 0.07f * h),
-        )
+        val lx = cx + side * 0.08f * h - legW / 2
+        drawRoundRect(legs, Offset(lx, legTop), Size(legW, 0.28f * h), CornerRadius(legW * 0.3f))
+        drawRoundRect(Dark, Offset(lx, legTop), Size(legW, 0.28f * h), CornerRadius(legW * 0.3f), style = Stroke(ink))
+        val shoe = Offset(lx - 0.02f * h + d * 0.015f * h, groundY - 0.055f * h)
+        drawRoundRect(Color.White, shoe, Size(legW + 0.04f * h, 0.055f * h), CornerRadius(0.02f * h))
+        drawRoundRect(Dark, shoe, Size(legW + 0.04f * h, 0.055f * h), CornerRadius(0.02f * h), style = Stroke(ink))
     }
 
-    // Body.
-    drawRoundRect(
-        top,
-        topLeft = Offset(cx - 0.18f * h, bodyTop),
-        size = Size(0.36f * h, 0.38f * h),
-        cornerRadius = CornerRadius(0.08f * h),
-    )
+    // Body (top), with the journal's details: pocket, stripes or a sports number.
+    val bodyLeft = cx - 0.18f * h
+    val bodySize = Size(0.36f * h, 0.36f * h)
+    drawRoundRect(top, Offset(bodyLeft, bodyTop), bodySize, CornerRadius(0.06f * h))
+    spec.stripes?.let { st ->
+        val c = parseHex(st)
+        for (k in 1..4) {
+            val y = bodyTop + bodySize.height * k / 5f
+            drawLine(c, Offset(bodyLeft + ink, y), Offset(bodyLeft + bodySize.width - ink, y), ink * 1.2f)
+        }
+    }
+    spec.pocket?.let { pk ->
+        val pw = 0.13f * h
+        val py = bodyTop + 0.2f * h
+        val path = Path().apply {
+            moveTo(cx - pw / 2, py); lineTo(cx + pw / 2, py)
+            lineTo(cx + pw * 0.4f, py + 0.08f * h); lineTo(cx - pw * 0.4f, py + 0.08f * h); close()
+        }
+        drawPath(path, parseHex(pk)); drawPath(path, Dark, style = Stroke(ink * 0.8f))
+    }
+    drawRoundRect(Dark, Offset(bodyLeft, bodyTop), bodySize, CornerRadius(0.06f * h), style = Stroke(ink))
+    // Collar line.
+    drawArc(Dark, 20f, 140f, false, Offset(cx - 0.06f * h, bodyTop - 0.03f * h), Size(0.12f * h, 0.06f * h), style = Stroke(ink * 0.8f))
 
-    // Head and hair cap.
+    // Head.
     drawCircle(skin, r, head)
-    drawArc(
-        hair,
-        startAngle = 198f,
-        sweepAngle = 144f,
-        useCenter = false,
-        topLeft = Offset(head.x - 1.06f * r, head.y - 1.06f * r),
-        size = Size(2.12f * r, 2.12f * r),
-    )
-    if (spec.hairStyle == "spiky") {
-        listOf(-0.6f, -0.2f, 0.2f, 0.6f).forEach { o ->
-            val bx = head.x + o * r
-            val by = head.y - 0.82f * r
-            drawPath(Path().apply {
-                moveTo(bx - 0.24f * r, by + 0.1f * r)
-                lineTo(bx + 0.24f * r, by + 0.1f * r)
-                lineTo(bx + o * 0.15f * r, by - 0.42f * r)
+    drawCircle(Dark, r, head, style = Stroke(ink))
+
+    // Hair on top.
+    when (spec.hairStyle) {
+        "cap" -> {
+            val cap = Path().apply {
+                addArc(androidx.compose.ui.geometry.Rect(head.x - 1.04f * r, head.y - 1.04f * r, head.x + 1.04f * r, head.y + 1.04f * r), 190f, 160f)
                 close()
-            }, hair)
+            }
+            drawPath(cap, hair)
+            // Brim pointing the way they face.
+            drawRoundRect(hair, Offset(head.x + (if (d > 0) 0.2f * r else -1.25f * r), head.y - 0.42f * r), Size(1.05f * r, 0.18f * r), CornerRadius(0.08f * r))
+        }
+        else -> {
+            drawArc(hair, 198f, 144f, false, Offset(head.x - 1.06f * r, head.y - 1.06f * r), Size(2.12f * r, 2.12f * r))
+            drawArc(Dark, 198f, 144f, false, Offset(head.x - 1.06f * r, head.y - 1.06f * r), Size(2.12f * r, 2.12f * r), style = Stroke(ink))
+            if (spec.hairStyle == "messy" || spec.hairStyle == "spiky") {
+                // Scribbly tufts and hatching, like the journal drawings.
+                listOf(-0.65f, -0.3f, 0.05f, 0.4f, 0.7f).forEachIndexed { i, o ->
+                    val bx = head.x + o * r
+                    val by = head.y - 0.86f * r + kotlin.math.abs(o) * 0.25f * r
+                    val tip = Offset(bx + (if (i % 2 == 0) 0.12f else -0.08f) * r, by - 0.32f * r)
+                    val tuft = Path().apply { moveTo(bx - 0.18f * r, by + 0.05f * r); lineTo(tip.x, tip.y); lineTo(bx + 0.18f * r, by + 0.05f * r); close() }
+                    drawPath(tuft, hair); drawPath(tuft, Dark, style = Stroke(ink * 0.8f))
+                }
+                for (k in -3..3) {
+                    val x = head.x + k * 0.22f * r
+                    drawLine(Dark.copy(alpha = 0.55f), Offset(x - 0.1f * r, head.y - 0.45f * r), Offset(x + 0.12f * r, head.y - 0.8f * r), ink * 0.6f)
+                }
+            }
         }
     }
 
-    drawFace(p, head, r, d, spec.glasses, featureColor(skin))
-    drawArms(p, cx, bodyTop, h, d, skin, top)
+    drawFace(p, head, r, d, spec.glasses, spec.freckles, ink)
+    drawArms(p, cx, bodyTop, h, d, skin, top, ink)
+
+    // Sports number on the front of the top (drawn after the arms so it stays visible).
+    spec.number?.let { n ->
+        val nh = 0.12f * h
+        val x0 = cx - nh * 0.3f
+        val y0 = bodyTop + 0.11f * h
+        if (n == "7") {
+            drawLine(Dark, Offset(x0, y0), Offset(x0 + nh * 0.6f, y0), ink * 1.4f, StrokeCap.Round)
+            drawLine(Dark, Offset(x0 + nh * 0.6f, y0), Offset(x0 + nh * 0.15f, y0 + nh), ink * 1.4f, StrokeCap.Round)
+        }
+    }
 }
 
-/** Very dark skin gets lighter mouth and brows so the expression stays readable. */
-private fun featureColor(skin: Color): Color =
-    if (0.2126f * skin.red + 0.7152f * skin.green + 0.0722f * skin.blue < 0.3f) Color(0xFFF3D9C6) else Dark
-
-private fun DrawScope.drawFace(p: PanelPerson, c: Offset, r: Float, d: Float, glasses: Boolean, ink: Color) {
-    val shift = d * 0.12f * r
+private fun DrawScope.drawFace(p: PanelPerson, c: Offset, r: Float, d: Float, glasses: Boolean, freckles: Boolean, ink: Float) {
+    val shift = d * 0.1f * r
     val eyeY = c.y + 0.02f * r
-    val eyes = listOf(c.x + shift - 0.36f * r, c.x + shift + 0.36f * r)
-    val eyeR = if (p.face == "surprised") 0.12f * r else 0.08f * r
-    eyes.forEach {
-        if (ink != Dark) drawCircle(Color.White, eyeR * 1.7f, Offset(it, eyeY))
-        drawCircle(Dark, eyeR, Offset(it, eyeY))
-    }
+    val eyes = listOf(c.x + shift - 0.34f * r, c.x + shift + 0.34f * r)
+    val eyeR = if (p.face == "surprised") 0.12f * r else 0.075f * r
+    if (p.face == "surprised") eyes.forEach { drawCircle(Dark, eyeR * 1.6f, Offset(it, eyeY), style = Stroke(ink * 0.7f)) }
+    eyes.forEach { drawCircle(Dark, eyeR, Offset(it, eyeY)) }
 
     val m = Offset(c.x + shift, c.y + 0.45f * r)
     val w = 0.5f * r
-    val sw = 0.07f * r
-    val line = Stroke(sw, cap = StrokeCap.Round)
+    val line = Stroke(ink * 0.9f, cap = StrokeCap.Round)
 
     fun brows(innerUp: Boolean) {
         eyes.forEachIndexed { i, ex ->
-            val innerSide = if (i == 0) 1f else -1f // towards the middle of the face
+            val innerSide = if (i == 0) 1f else -1f
             val inner = Offset(ex + innerSide * 0.15f * r, eyeY - (if (innerUp) 0.36f else 0.2f) * r)
             val outer = Offset(ex - innerSide * 0.15f * r, eyeY - (if (innerUp) 0.24f else 0.34f) * r)
-            drawLine(ink, inner, outer, sw, StrokeCap.Round)
+            drawLine(Dark, inner, outer, ink * 0.9f, StrokeCap.Round)
         }
     }
 
     when (p.face) {
         "happy", "proud" -> {
-            drawArc(ink, 20f, 140f, false, Offset(m.x - w / 2, m.y - 0.32f * r), Size(w, 0.4f * r), style = line)
-            eyes.forEach { drawCircle(Cheek.copy(alpha = 0.6f), 0.13f * r, Offset(it + (if (it < c.x + shift) -0.18f else 0.18f) * r, c.y + 0.3f * r)) }
+            drawArc(Dark, 20f, 140f, false, Offset(m.x - w / 2, m.y - 0.32f * r), Size(w, 0.4f * r), style = line)
+            eyes.forEach { drawCircle(Cheek.copy(alpha = 0.5f), 0.12f * r, Offset(it + (if (it < c.x + shift) -0.16f else 0.16f) * r, c.y + 0.3f * r)) }
         }
-        "sad" -> drawArc(ink, 200f, 140f, false, Offset(m.x - w / 2, m.y - 0.02f * r), Size(w, 0.34f * r), style = line)
+        "sad" -> drawArc(Dark, 200f, 140f, false, Offset(m.x - w / 2, m.y - 0.02f * r), Size(w, 0.34f * r), style = line)
         "worried" -> {
-            drawArc(ink, 205f, 130f, false, Offset(m.x - w * 0.3f, m.y), Size(w * 0.6f, 0.26f * r), style = line)
+            drawArc(Dark, 205f, 130f, false, Offset(m.x - w * 0.3f, m.y), Size(w * 0.6f, 0.26f * r), style = line)
             brows(innerUp = true)
         }
         "cross" -> {
-            drawLine(ink, Offset(m.x - w * 0.35f, m.y + 0.05f * r), Offset(m.x + w * 0.35f, m.y + 0.05f * r), sw, StrokeCap.Round)
+            drawLine(Dark, Offset(m.x - w * 0.35f, m.y + 0.05f * r), Offset(m.x + w * 0.35f, m.y + 0.05f * r), ink, StrokeCap.Round)
             brows(innerUp = false)
         }
-        "surprised" -> drawCircle(Color(0xFF5A1E1E), 0.11f * r, Offset(m.x, m.y + 0.05f * r))
-        "smirk" -> drawArc(ink, 10f, 80f, false, Offset(m.x - w / 2, m.y - 0.3f * r), Size(w, 0.4f * r), style = line)
-        "laugh" -> drawArc(Color(0xFF5A1E1E), 0f, 180f, true, Offset(m.x - w / 2, m.y - 0.22f * r), Size(w, 0.46f * r))
-        else -> drawLine(ink, Offset(m.x - w * 0.25f, m.y + 0.05f * r), Offset(m.x + w * 0.25f, m.y + 0.05f * r), sw, StrokeCap.Round)
+        "surprised" -> drawCircle(Dark, 0.1f * r, Offset(m.x, m.y + 0.05f * r), style = line)
+        "smirk" -> drawArc(Dark, 10f, 80f, false, Offset(m.x - w / 2, m.y - 0.3f * r), Size(w, 0.4f * r), style = line)
+        "laugh" -> {
+            drawArc(Color(0xFF7A2E2E), 0f, 180f, true, Offset(m.x - w / 2, m.y - 0.22f * r), Size(w, 0.46f * r))
+            drawArc(Dark, 0f, 180f, true, Offset(m.x - w / 2, m.y - 0.22f * r), Size(w, 0.46f * r), style = line)
+        }
+        else -> drawLine(Dark, Offset(m.x - w * 0.25f, m.y + 0.05f * r), Offset(m.x + w * 0.25f, m.y + 0.05f * r), ink * 0.9f, StrokeCap.Round)
+    }
+
+    if (freckles) {
+        listOf(-0.5f, -0.38f, 0.38f, 0.5f).forEach { fx ->
+            drawCircle(Color(0xFFC07A4A), 0.035f * r, Offset(c.x + shift + fx * r, c.y + 0.24f * r))
+        }
     }
 
     if (p.tears) {
         val tx = eyes[0]
         val ty = eyeY + 0.2f * r
         drawPath(Path().apply {
-            moveTo(tx, ty)
-            lineTo(tx - 0.09f * r, ty + 0.2f * r)
-            lineTo(tx + 0.09f * r, ty + 0.2f * r)
-            close()
+            moveTo(tx, ty); lineTo(tx - 0.09f * r, ty + 0.2f * r); lineTo(tx + 0.09f * r, ty + 0.2f * r); close()
         }, Tear)
         drawCircle(Tear, 0.1f * r, Offset(tx, ty + 0.24f * r))
     }
 
     if (glasses) {
-        val gs = Stroke(0.06f * r)
-        eyes.forEach { drawCircle(Dark, 0.22f * r, Offset(it, eyeY), style = gs) }
-        drawLine(Dark, Offset(eyes[0] + 0.22f * r, eyeY), Offset(eyes[1] - 0.22f * r, eyeY), 0.06f * r)
+        eyes.forEach { drawRoundRect(Dark, Offset(it - 0.21f * r, eyeY - 0.16f * r), Size(0.42f * r, 0.32f * r), CornerRadius(0.08f * r), style = Stroke(ink * 0.9f)) }
+        drawLine(Dark, Offset(eyes[0] + 0.21f * r, eyeY), Offset(eyes[1] - 0.21f * r, eyeY), ink * 0.9f)
     }
 }
 
-private fun DrawScope.drawArms(p: PanelPerson, cx: Float, bodyTop: Float, h: Float, d: Float, skin: Color, top: Color) {
-    val armW = 0.075f * h
+private fun DrawScope.drawArms(p: PanelPerson, cx: Float, bodyTop: Float, h: Float, d: Float, skin: Color, top: Color, ink: Float) {
+    val armW = 0.06f * h
     val down = { s: Float -> Pair<Offset?, Offset>(null, Offset(cx + s * 0.23f * h, bodyTop + 0.32f * h)) }
     var itemAt: Offset? = null
+
+    fun inkLine(color: Color, a: Offset, b: Offset, width: Float) {
+        drawLine(Dark, a, b, width + ink * 2f, StrokeCap.Round)
+        drawLine(color, a, b, width, StrokeCap.Round)
+    }
 
     for (s in listOf(-1f, 1f)) {
         val front = s == d
@@ -390,33 +436,31 @@ private fun DrawScope.drawArms(p: PanelPerson, cx: Float, bodyTop: Float, h: Flo
         val (elbow, hand) = when (p.arm) {
             "wave" -> if (front) Pair(Offset(cx + d * 0.32f * h, bodyTop + 0.02f * h), Offset(cx + d * 0.33f * h, bodyTop - 0.22f * h)) else down(s)
             "stop" -> if (front) Pair(null, Offset(cx + d * 0.46f * h, bodyTop + 0.07f * h)) else down(s)
-            "point" -> if (front) Pair(null, Offset(cx + d * 0.44f * h, bodyTop - 0.06f * h)) else down(s)
+            "point" -> if (front) Pair(null, Offset(cx + d * 0.44f * h, bodyTop - 0.02f * h)) else down(s)
             "hold" -> Pair(Offset(cx + s * 0.24f * h, bodyTop + 0.24f * h), Offset(cx + d * 0.06f * h + s * 0.035f * h, bodyTop + 0.2f * h))
             "up" -> Pair(null, Offset(cx + s * 0.30f * h, bodyTop - 0.30f * h))
-            "hips" -> Pair(Offset(cx + s * 0.32f * h, bodyTop + 0.16f * h), Offset(cx + s * 0.17f * h, bodyTop + 0.30f * h))
+            "hips" -> Pair(Offset(cx + s * 0.3f * h, bodyTop + 0.1f * h), Offset(cx + s * 0.38f * h, bodyTop + 0.02f * h))
             "give" -> if (front) Pair(null, Offset(cx + d * 0.45f * h, bodyTop + 0.16f * h)) else down(s)
             else -> down(s)
         }
-        // Sleeve in top colour, then skin.
         if (elbow != null) {
-            drawLine(top, shoulder, elbow, armW, StrokeCap.Round)
-            drawLine(skin, elbow, hand, armW * 0.85f, StrokeCap.Round)
+            inkLine(top, shoulder, elbow, armW)
+            inkLine(skin, elbow, hand, armW * 0.8f)
         } else {
-            val mid = Offset(shoulder.x + (hand.x - shoulder.x) * 0.4f, shoulder.y + (hand.y - shoulder.y) * 0.4f)
-            drawLine(top, shoulder, mid, armW, StrokeCap.Round)
-            drawLine(skin, mid, hand, armW * 0.85f, StrokeCap.Round)
+            val mid = Offset(shoulder.x + (hand.x - shoulder.x) * 0.35f, shoulder.y + (hand.y - shoulder.y) * 0.35f)
+            inkLine(top, shoulder, mid, armW)
+            inkLine(skin, mid, hand, armW * 0.8f)
         }
-        drawCircle(skin, 0.042f * h, hand)
+        drawCircle(skin, 0.04f * h, hand)
+        drawCircle(Dark, 0.04f * h, hand, style = Stroke(ink))
 
         if (front) {
             when (p.arm) {
-                "stop" -> drawRoundRect(
-                    skin,
-                    topLeft = Offset(hand.x - 0.03f * h + d * 0.02f * h, hand.y - 0.08f * h),
-                    size = Size(0.06f * h, 0.12f * h),
-                    cornerRadius = CornerRadius(0.03f * h),
-                )
-                "point" -> drawLine(skin, hand, Offset(hand.x + d * 0.07f * h, hand.y - 0.02f * h), 0.025f * h, StrokeCap.Round)
+                "stop" -> {
+                    drawRoundRect(skin, Offset(hand.x - 0.03f * h + d * 0.02f * h, hand.y - 0.08f * h), Size(0.06f * h, 0.12f * h), CornerRadius(0.03f * h))
+                    drawRoundRect(Dark, Offset(hand.x - 0.03f * h + d * 0.02f * h, hand.y - 0.08f * h), Size(0.06f * h, 0.12f * h), CornerRadius(0.03f * h), style = Stroke(ink))
+                }
+                "point" -> drawLine(Dark, hand, Offset(hand.x + d * 0.07f * h, hand.y - 0.02f * h), ink * 1.2f, StrokeCap.Round)
             }
             itemAt = when (p.arm) {
                 "hold" -> Offset(cx + d * 0.07f * h, bodyTop + 0.15f * h)
@@ -424,128 +468,139 @@ private fun DrawScope.drawArms(p: PanelPerson, cx: Float, bodyTop: Float, h: Flo
             }
         }
     }
-    p.item?.let { item -> itemAt?.let { drawItem(item, it, 0.13f * h) } }
+    p.item?.let { item -> itemAt?.let { drawItem(item, it, 0.13f * h, ink) } }
 }
 
-private fun DrawScope.drawItem(item: String, c: Offset, u: Float) {
+private fun DrawScope.drawItem(item: String, c: Offset, u: Float, ink: Float) {
+    val o = Stroke(ink)
     when (item) {
         "phone" -> {
-            drawRoundRect(Dark, Offset(c.x - 0.32f * u, c.y - 0.55f * u), Size(0.64f * u, 1.1f * u), CornerRadius(0.12f * u))
-            drawRect(Color(0xFF7FC8F8), Offset(c.x - 0.24f * u, c.y - 0.44f * u), Size(0.48f * u, 0.82f * u))
+            drawRoundRect(Color.White, Offset(c.x - 0.32f * u, c.y - 0.55f * u), Size(0.64f * u, 1.1f * u), CornerRadius(0.12f * u))
+            drawRoundRect(Dark, Offset(c.x - 0.32f * u, c.y - 0.55f * u), Size(0.64f * u, 1.1f * u), CornerRadius(0.12f * u), style = o)
+            drawRect(Color(0xFFBFE3F5), Offset(c.x - 0.22f * u, c.y - 0.42f * u), Size(0.44f * u, 0.8f * u))
         }
         "lolly" -> {
-            drawLine(Color.White, Offset(c.x, c.y), Offset(c.x, c.y + 0.9f * u), 0.08f * u)
-            drawCircle(Color(0xFFFF6FA3), 0.42f * u, Offset(c.x, c.y - 0.2f * u))
-            drawCircle(Color.White, 0.22f * u, Offset(c.x, c.y - 0.2f * u), style = Stroke(0.08f * u))
+            drawLine(Dark, Offset(c.x, c.y), Offset(c.x, c.y + 0.9f * u), ink)
+            drawCircle(Color(0xFFFF9EC0), 0.4f * u, Offset(c.x, c.y - 0.2f * u))
+            drawCircle(Dark, 0.4f * u, Offset(c.x, c.y - 0.2f * u), style = o)
         }
         "ball" -> {
-            drawCircle(Color(0xFFF08A34), 0.55f * u, c)
-            drawLine(Dark, Offset(c.x - 0.55f * u, c.y), Offset(c.x + 0.55f * u, c.y), 0.05f * u)
-            drawLine(Dark, Offset(c.x, c.y - 0.55f * u), Offset(c.x, c.y + 0.55f * u), 0.05f * u)
+            drawCircle(Color(0xFFF2A65A), 0.55f * u, c)
+            drawCircle(Dark, 0.55f * u, c, style = o)
+            drawLine(Dark, Offset(c.x - 0.55f * u, c.y), Offset(c.x + 0.55f * u, c.y), ink * 0.7f)
+            drawLine(Dark, Offset(c.x, c.y - 0.55f * u), Offset(c.x, c.y + 0.55f * u), ink * 0.7f)
         }
         "controller" -> {
-            drawRoundRect(Color(0xFF555B66), Offset(c.x - 0.6f * u, c.y - 0.3f * u), Size(1.2f * u, 0.6f * u), CornerRadius(0.25f * u))
-            drawCircle(Color(0xFFE5533D), 0.08f * u, Offset(c.x + 0.3f * u, c.y - 0.05f * u))
-            drawCircle(Color(0xFF3E8ED0), 0.08f * u, Offset(c.x + 0.42f * u, c.y + 0.08f * u))
-            drawLine(Color.White, Offset(c.x - 0.45f * u, c.y), Offset(c.x - 0.2f * u, c.y), 0.07f * u)
+            drawRoundRect(Color.White, Offset(c.x - 0.6f * u, c.y - 0.3f * u), Size(1.2f * u, 0.6f * u), CornerRadius(0.25f * u))
+            drawRoundRect(Dark, Offset(c.x - 0.6f * u, c.y - 0.3f * u), Size(1.2f * u, 0.6f * u), CornerRadius(0.25f * u), style = o)
+            drawCircle(Dark, 0.07f * u, Offset(c.x + 0.3f * u, c.y))
+            drawLine(Dark, Offset(c.x - 0.45f * u, c.y), Offset(c.x - 0.2f * u, c.y), ink)
         }
         "invite" -> {
             drawRect(Color.White, Offset(c.x - 0.5f * u, c.y - 0.35f * u), Size(1.0f * u, 0.7f * u))
-            drawRect(Dark, Offset(c.x - 0.5f * u, c.y - 0.35f * u), Size(1.0f * u, 0.7f * u), style = Stroke(0.04f * u))
-            drawRect(Color(0xFFFF8FAB), Offset(c.x - 0.5f * u, c.y - 0.12f * u), Size(1.0f * u, 0.18f * u))
+            drawRect(Color(0xFFFFC2D4), Offset(c.x - 0.5f * u, c.y - 0.1f * u), Size(1.0f * u, 0.18f * u))
+            drawRect(Dark, Offset(c.x - 0.5f * u, c.y - 0.35f * u), Size(1.0f * u, 0.7f * u), style = o)
         }
         "book" -> {
-            drawRect(Color(0xFFC0392B), Offset(c.x - 0.45f * u, c.y - 0.55f * u), Size(0.9f * u, 1.1f * u))
-            drawRect(Color.White, Offset(c.x + 0.3f * u, c.y - 0.5f * u), Size(0.1f * u, 1.0f * u))
+            drawRect(Color.White, Offset(c.x - 0.45f * u, c.y - 0.55f * u), Size(0.9f * u, 1.1f * u))
+            drawRect(Dark, Offset(c.x - 0.45f * u, c.y - 0.55f * u), Size(0.9f * u, 1.1f * u), style = o)
+            for (k in 1..3) drawLine(Dark.copy(alpha = 0.5f), Offset(c.x - 0.3f * u, c.y - 0.55f * u + k * 0.27f * u), Offset(c.x + 0.3f * u, c.y - 0.55f * u + k * 0.27f * u), ink * 0.6f)
+        }
+        "money" -> {
+            drawRect(Color(0xFFB8E0B0), Offset(c.x - 0.55f * u, c.y - 0.28f * u), Size(1.1f * u, 0.56f * u))
+            drawRect(Dark, Offset(c.x - 0.55f * u, c.y - 0.28f * u), Size(1.1f * u, 0.56f * u), style = o)
+            drawCircle(Dark, 0.14f * u, c, style = Stroke(ink * 0.7f))
         }
     }
 }
 
-private fun DrawScope.drawScene(scene: String, groundY: Float) {
+/** Pale, outlined props on white paper, like the journal comics. */
+private fun DrawScope.drawScene(scene: String, groundY: Float, px: Float) {
     val w = size.width
     val hgt = size.height
-    fun sky(c: Color) = drawRect(c, Offset.Zero, Size(w, groundY))
-    fun ground(c: Color) = drawRect(c, Offset(0f, groundY), Size(w, hgt - groundY))
-    fun tree(x: Float, scale: Float, leaf: Color) {
-        drawRect(Color(0xFF8D6E63), Offset(x - 0.03f * w * scale, groundY - 0.32f * hgt * scale), Size(0.06f * w * scale, 0.32f * hgt * scale))
-        drawCircle(leaf, 0.13f * hgt * scale + 0.05f * w * scale, Offset(x, groundY - 0.4f * hgt * scale))
+    val ink = 1.4f * px
+    val o = Stroke(ink)
+    val green = Color(0xFFE2F2DF)
+    val blue = Color(0xFFE3F1FB)
+    drawRect(Color.White, Offset.Zero, size)
+
+    fun bush(x: Float, scale: Float) {
+        val r = 0.07f * w * scale + 10f * px
+        val c = Offset(x, groundY - r * 2.2f)
+        drawLine(Dark, Offset(x, groundY), Offset(x, c.y), ink)
+        val path = Path()
+        for (k in 0 until 14) {
+            val a = Math.toRadians(k * 360.0 / 14)
+            val rr = if (k % 2 == 0) r else r * 0.8f
+            val pt = Offset(c.x + (rr * Math.cos(a)).toFloat(), c.y + (rr * Math.sin(a)).toFloat())
+            if (k == 0) path.moveTo(pt.x, pt.y) else path.lineTo(pt.x, pt.y)
+        }
+        path.close()
+        drawPath(path, green); drawPath(path, Dark, style = o)
+    }
+    fun box(x: Float, y: Float, bw: Float, bh: Float, fill: Color) {
+        drawRect(fill, Offset(x, y), Size(bw, bh)); drawRect(Dark, Offset(x, y), Size(bw, bh), style = o)
+    }
+    fun window(x: Float, y: Float, s: Float) {
+        box(x, y, s, s, Color.White)
+        drawLine(Dark, Offset(x + s / 2, y), Offset(x + s / 2, y + s), ink)
+        drawLine(Dark, Offset(x, y + s / 2), Offset(x + s, y + s / 2), ink)
     }
 
     when (scene) {
-        "outside" -> {
-            sky(Color(0xFFDFF2FB)); ground(Color(0xFF8BC34A))
-            drawRect(Color(0xFF8BC34A), Offset(0f, groundY - 0.03f * hgt), Size(w, 0.03f * hgt))
-            tree(0.9f * w, 1f, Color(0xFF66BB6A))
-        }
+        "outside" -> bush(0.88f * w, 1f)
         "school" -> {
-            sky(Color(0xFFFFF4DC)); ground(Color(0xFFC8A27A))
-            drawRect(Color(0xFF8D6E63), Offset(0.06f * w - 6f, groundY * 0.42f - 6f), Size(0.5f * w + 12f, groundY * 0.3f + 12f))
-            drawRect(Color(0xFF2F6B4F), Offset(0.06f * w, groundY * 0.42f), Size(0.5f * w, groundY * 0.3f))
-            drawLine(Color.White.copy(alpha = 0.7f), Offset(0.1f * w, groundY * 0.5f), Offset(0.3f * w, groundY * 0.5f), 3f)
-            drawLine(Color.White.copy(alpha = 0.7f), Offset(0.1f * w, groundY * 0.58f), Offset(0.4f * w, groundY * 0.58f), 3f)
+            box(0.04f * w, groundY - 0.36f * groundY, 0.34f * w, 0.18f * groundY, green)
+            for (k in 1..2) drawLine(Dark.copy(alpha = 0.5f), Offset(0.07f * w, groundY - 0.36f * groundY + k * 0.06f * groundY), Offset(0.3f * w, groundY - 0.36f * groundY + k * 0.06f * groundY), ink * 0.7f)
         }
         "shop" -> {
-            sky(Color(0xFFFDEBD3)); ground(Color(0xFFBDBDBD))
-            val colors = listOf(Color(0xFFE57373), Color(0xFF64B5F6), Color(0xFFFFD54F), Color(0xFF81C784), Color(0xFFBA68C8))
-            listOf(0.45f, 0.68f).forEachIndexed { row, f ->
+            listOf(0.5f, 0.68f, 0.86f).forEach { f ->
                 val y = groundY * f
-                drawRect(Color(0xFF8D6E63), Offset(0f, y), Size(w, 6f))
-                var x = 0.04f * w
-                var i = row
-                while (x < w - 0.06f * w) {
-                    drawRect(colors[i % colors.size], Offset(x, y - 0.1f * groundY), Size(0.05f * w, 0.1f * groundY))
-                    x += 0.075f * w; i++
-                }
+                drawLine(Dark, Offset(0.03f * w, y), Offset(0.38f * w, y), ink)
+                var x = 0.05f * w
+                while (x < 0.34f * w) { box(x, y - 0.08f * groundY, 0.045f * w, 0.08f * groundY, Color(0xFFFFF0C2)); x += 0.07f * w }
             }
+        }
+        "canteen" -> {
+            box(0.02f * w, groundY - 0.2f * groundY, 0.42f * w, 0.2f * groundY, Color.White)
+            drawLine(Dark, Offset(0.02f * w, groundY - 0.33f * groundY), Offset(0.44f * w, groundY - 0.33f * groundY), ink)
+            drawContext.canvas.nativeCanvas.drawText("CANTEEN", 0.05f * w, groundY - 0.35f * groundY,
+                android.graphics.Paint().apply { color = android.graphics.Color.rgb(43, 43, 43); textSize = 10f * px; isAntiAlias = true })
         }
         "court" -> {
-            sky(Color(0xFFE3EEF9)); ground(Color(0xFFD9A066))
-            drawLine(Color(0xFFB5794A), Offset(0f, groundY + (hgt - groundY) / 2), Offset(w, groundY + (hgt - groundY) / 2), 2f)
             val bx = 0.86f * w
-            drawLine(Color(0xFF616161), Offset(bx + 0.06f * w, groundY), Offset(bx + 0.06f * w, groundY * 0.4f), 6f)
-            drawRect(Color.White, Offset(bx - 0.08f * w, groundY * 0.3f), Size(0.16f * w, groundY * 0.18f))
-            drawRect(Dark, Offset(bx - 0.08f * w, groundY * 0.3f), Size(0.16f * w, groundY * 0.18f), style = Stroke(3f))
-            drawLine(Color(0xFFF08A34), Offset(bx - 0.1f * w, groundY * 0.5f), Offset(bx + 0.02f * w, groundY * 0.5f), 5f)
-        }
-        "party" -> {
-            sky(Color(0xFFFFF0F5)); ground(Color(0xFFD7CCC8))
-            listOf(0.1f to Color(0xFFFF8FAB), 0.2f to Color(0xFFFFD54F), 0.82f to Color(0xFF64B5F6), 0.92f to Color(0xFF81C784)).forEach { (fx, col) ->
-                val c = Offset(fx * w, groundY * 0.45f)
-                drawLine(Dark.copy(alpha = 0.5f), c, Offset(c.x, groundY * 0.8f), 2f)
-                drawOval(col, Offset(c.x - 0.035f * w, c.y - 0.06f * groundY), Size(0.07f * w, 0.12f * groundY))
-            }
+            drawLine(Dark, Offset(bx + 0.04f * w, groundY), Offset(bx + 0.04f * w, groundY * 0.45f), ink * 1.5f)
+            box(bx - 0.05f * w, groundY * 0.4f, 0.12f * w, groundY * 0.12f, Color.White)
+            drawOval(Dark, Offset(bx - 0.07f * w, groundY * 0.54f), Size(0.07f * w, 0.025f * groundY), style = o)
         }
         "home" -> {
-            sky(Color(0xFFF6EEDF)); ground(Color(0xFFB98B5E))
-            drawRect(Color(0xFFB3E0F7), Offset(0.07f * w, groundY * 0.38f), Size(0.24f * w, groundY * 0.3f))
-            drawRect(Color.White, Offset(0.07f * w, groundY * 0.38f), Size(0.24f * w, groundY * 0.3f), style = Stroke(6f))
-            drawLine(Color.White, Offset(0.19f * w, groundY * 0.38f), Offset(0.19f * w, groundY * 0.68f), 4f)
-            drawRoundRect(Color(0xFF7986CB), Offset(0.7f * w, groundY * 0.72f), Size(0.28f * w, groundY * 0.28f), CornerRadius(14f))
-            drawRoundRect(Color(0xFF5C6BC0), Offset(0.7f * w, groundY * 0.62f), Size(0.28f * w, groundY * 0.14f), CornerRadius(14f))
-        }
-        "beach" -> {
-            sky(Color(0xFFCDEBFA))
-            drawRect(Color(0xFF4FA3D9), Offset(0f, groundY * 0.7f), Size(w, groundY * 0.3f))
-            ground(Color(0xFFF3DC9B))
-            val px = 0.9f * w
-            drawLine(Dark, Offset(px, groundY), Offset(px, groundY * 0.45f), 4f)
-            drawRect(Color(0xFFE53935), Offset(px, groundY * 0.45f), Size(0.06f * w, groundY * 0.06f))
-            drawRect(Color(0xFFFFD600), Offset(px, groundY * 0.51f), Size(0.06f * w, groundY * 0.06f))
-        }
-        "bush" -> {
-            sky(Color(0xFFE2F1E0)); ground(Color(0xFF9CBF6B))
-            tree(0.1f * w, 0.9f, Color(0xFF558B2F))
-            tree(0.82f * w, 1.05f, Color(0xFF689F38))
-            tree(0.95f * w, 0.8f, Color(0xFF33691E))
+            box(0.03f * w, groundY - 0.1f * groundY, 0.14f * w, 0.1f * groundY, Color.White)
+            window(0.62f * w, groundY * 0.45f, 0.16f * w)
         }
         "screen" -> {
-            sky(Color(0xFFE9ECF3)); ground(Color(0xFFB0BEC5))
-            drawRoundRect(Color(0xFF37474F), Offset(0.58f * w, groundY * 0.45f), Size(0.36f * w, groundY * 0.36f), CornerRadius(10f))
-            drawRect(Color(0xFF4DB6AC), Offset(0.6f * w, groundY * 0.48f), Size(0.32f * w, groundY * 0.3f))
-            drawRect(Color(0xFF37474F), Offset(0.74f * w, groundY * 0.81f), Size(0.04f * w, groundY * 0.19f))
+            box(0.6f * w, groundY * 0.5f, 0.3f * w, 0.26f * groundY, blue)
+            drawLine(Dark, Offset(0.75f * w, groundY * 0.76f), Offset(0.75f * w, groundY), ink)
         }
-        else -> {
-            sky(BookColors.Cream); ground(Color(0xFFEDE3CF))
+        "car" -> {
+            box(0.05f * w, groundY - 0.12f * groundY, 0.9f * w, 0.12f * groundY, blue)
+            window(0.8f * w, groundY * 0.4f, 0.13f * w)
         }
+        "bush" -> {
+            bush(0.1f * w, 0.9f); bush(0.88f * w, 1f); bush(0.32f * w, 0.6f)
+        }
+        "beach" -> {
+            drawLine(Color(0xFF7FB8E0), Offset(0f, groundY * 0.75f), Offset(w, groundY * 0.75f), ink * 2)
+        }
+        "party" -> listOf(0.1f, 0.88f).forEach { fx ->
+            drawLine(Dark, Offset(fx * w, groundY * 0.45f), Offset(fx * w, groundY * 0.8f), ink)
+            drawOval(Color(0xFFFFC2D4), Offset(fx * w - 0.03f * w, groundY * 0.33f), Size(0.06f * w, 0.12f * groundY))
+            drawOval(Dark, Offset(fx * w - 0.03f * w, groundY * 0.33f), Size(0.06f * w, 0.12f * groundY), style = o)
+        }
+    }
+    // Ground line with a few grass ticks.
+    drawLine(Dark, Offset(0f, groundY), Offset(w, groundY), ink)
+    if (scene == "outside" || scene == "bush") {
+        var x = 0.05f * w
+        while (x < w) { drawLine(Dark, Offset(x, groundY), Offset(x + 2f * px, groundY - 5f * px), ink * 0.7f); x += 0.09f * w }
     }
 }

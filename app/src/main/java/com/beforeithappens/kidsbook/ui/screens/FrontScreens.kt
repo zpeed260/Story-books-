@@ -67,8 +67,11 @@ import com.beforeithappens.kidsbook.ui.components.SectionCard
 import com.beforeithappens.kidsbook.ui.theme.BookColors
 import com.beforeithappens.kidsbook.ui.theme.forWhiteText
 import com.beforeithappens.kidsbook.ui.theme.parseHex
+import com.beforeithappens.kidsbook.ui.theme.HandStyle
+import com.beforeithappens.kidsbook.ui.theme.notebookPaper
+import androidx.compose.material.icons.filled.DirectionsWalk
 
-private val crewKeys = listOf("zara", "sam", "kai", "ruby", "theo", "mia")
+private val crewKeys = listOf("alex", "zara", "sam", "kai", "ruby", "theo", "mia")
 
 /* ---------------- Onboarding ---------------- */
 
@@ -96,13 +99,18 @@ fun OnboardingScreen(content: BookContent, user: UserData, update: ((UserData) -
                 Text(book.cover.title, style = MaterialTheme.typography.displaySmall, color = BookColors.Friends,
                     textAlign = TextAlign.Center)
                 Text(book.cover.subtitle, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-                Text(book.cover.tagline, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+                Text(book.cover.tagline, style = HandStyle, textAlign = TextAlign.Center)
+                Text(book.cover.private, style = HandStyle, color = BookColors.HelpRedText, textAlign = TextAlign.Center)
                 CrewRow(content)
                 Text(book.cover.features, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 BigButton("Let's start", { step = 1 }, modifier = Modifier.fillMaxWidth())
             }
             1 -> {
-                Text("This book belongs to", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+                CharacterPortrait(content, "alex", Modifier.size(110.dp))
+                Text(book.intro.title, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
+                book.intro.paragraphs.forEach {
+                    Text(it, style = HandStyle, modifier = Modifier.fillMaxWidth().notebookPaper().padding(start = 24.dp, end = 8.dp))
+                }
                 OutlinedTextField(
                     value = name, onValueChange = { name = it.take(40) },
                     label = { Text(book.belongsTo.nameLabel) }, singleLine = true,
@@ -113,12 +121,11 @@ fun OnboardingScreen(content: BookContent, user: UserData, update: ((UserData) -
                     label = { Text(book.belongsTo.buddyLabel) }, singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Text(book.belongsTo.text, style = MaterialTheme.typography.bodyLarge)
                 BigButton("Next", { step = 2 }, modifier = Modifier.fillMaxWidth())
             }
             2 -> {
                 Text("Pick your buddy from the crew", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-                Text(book.crewOutro, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+                Text(book.crewIntro, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -151,10 +158,7 @@ fun OnboardingScreen(content: BookContent, user: UserData, update: ((UserData) -
             else -> {
                 CharacterPortrait(content, avatar, Modifier.size(140.dp))
                 Text(book.belongsTo.tellExplainer, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
-                SectionCard(background = BookColors.Magic) {
-                    Text(book.alwaysTell.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text(book.alwaysTell.text, style = MaterialTheme.typography.bodyLarge)
-                }
+                UsefulThingCards(content)
                 BigButton("Open my book", {
                     update { it.copy(onboarded = true, name = name.trim(), buddy = buddy.trim(), avatar = avatar) }
                     nav.finishOnboarding()
@@ -178,10 +182,10 @@ fun OnboardingScreen(content: BookContent, user: UserData, update: ((UserData) -
 @Composable
 private fun CrewRow(content: BookContent) {
     Row(
-        Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = "The six crew members waving and smiling" },
+        Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = "Alex and the crew waving" },
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        crewKeys.forEach { CharacterPortrait(content, it, Modifier.size(50.dp)) }
+        crewKeys.forEach { CharacterPortrait(content, it, Modifier.size(44.dp)) }
     }
 }
 
@@ -197,15 +201,17 @@ fun HomeScreen(content: BookContent, user: UserData, nav: Nav) {
                 Column {
                     Text(if (user.name.isBlank()) "Hi there!" else "Hi, ${user.name}!",
                         style = MaterialTheme.typography.headlineSmall)
-                    Text(content.book.cover.tagline, style = MaterialTheme.typography.bodyMedium)
+                    Text(content.book.cover.subtitle, style = MaterialTheme.typography.bodyMedium)
                 }
             }
+            SmallTile(content.book.usefulThing.title, Icons.Filled.DirectionsWalk, BookColors.Magic, BookColors.Ink,
+                "Exit now. Tell quietly later.", Modifier.fillMaxWidth()) { nav.go(Routes.USEFUL) }
             content.parts.forEach { part ->
                 val stories = content.storiesInPart(part.id)
                 val read = stories.count { it.id in user.readStories }
                 PartTile(
                     title = part.name,
-                    subtitle = "Stories ${stories.first().id} to ${stories.last().id} • $read of ${stories.size} read",
+                    subtitle = "Entries ${stories.first().id} to ${stories.last().id} • $read of ${stories.size} read",
                     color = parseHex(part.color),
                     onClick = { nav.part(part.id) },
                 )
@@ -218,7 +224,7 @@ fun HomeScreen(content: BookContent, user: UserData, nav: Nav) {
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 SmallTile("Meet the crew", Icons.Filled.Groups, Color.White, BookColors.Ink, null, Modifier.weight(1f)) { nav.go(Routes.CREW) }
-                SmallTile("How to use this book", Icons.Filled.MenuBook, Color.White, BookColors.Ink, null, Modifier.weight(1f)) { nav.go(Routes.HOW_TO) }
+                SmallTile("How to read each entry", Icons.Filled.MenuBook, Color.White, BookColors.Ink, null, Modifier.weight(1f)) { nav.go(Routes.HOW_TO) }
             }
             SmallTile("For grown-ups", Icons.Filled.Lock, BookColors.GrownUp, BookColors.Muted, "PIN needed", Modifier.fillMaxWidth()) {
                 nav.go(Routes.GROWN_UPS)
@@ -288,7 +294,7 @@ fun PartScreen(content: BookContent, user: UserData, partId: Int, nav: Nav) {
                         .clickable(role = Role.Button) { nav.story(story.id) }
                         .padding(12.dp)
                         .semantics(mergeDescendants = true) {
-                            contentDescription = "Story ${story.id}: ${story.title}" +
+                            contentDescription = "Entry ${story.id}, ${story.day}: ${story.title}" +
                                 (if (read) ". Read." else ". Not read yet.") + (if (fav) " Favourite." else "")
                         },
                     verticalAlignment = Alignment.CenterVertically,
@@ -298,7 +304,7 @@ fun PartScreen(content: BookContent, user: UserData, partId: Int, nav: Nav) {
                     }
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
-                        Text("STORY ${story.id}", style = MaterialTheme.typography.labelSmall, color = color.forWhiteText())
+                        Text("ENTRY ${story.id} • ${story.day.uppercase()}", style = MaterialTheme.typography.labelSmall, color = color.forWhiteText())
                         Text(story.title, style = MaterialTheme.typography.titleSmall)
                     }
                     if (fav) Icon(Icons.Filled.Favorite, contentDescription = null, tint = BookColors.HelpRed)
@@ -347,23 +353,11 @@ fun CrewScreen(content: BookContent, nav: Nav) {
 @Composable
 fun HowToUseScreen(content: BookContent, nav: Nav) {
     val book = content.book
-    KidScaffold(title = "How to use this book", onBack = nav::back, onHome = nav::home, onHelp = nav::help) { pad ->
+    KidScaffold(title = "How to read each entry", onBack = nav::back, onHome = nav::home, onHelp = nav::help) { pad ->
         ScreenColumn(pad) {
-            ReadToMeButton("howto", {
-                book.howToUse.mapIndexed { i, s -> "${i + 1}. ${s.title} ${s.text}" } + listOf(book.alwaysTell.title, book.alwaysTell.text)
-            })
-            book.howToUse.forEachIndexed { i, s ->
-                Row(Modifier.fillMaxWidth().background(Color.White, RoundedCornerShape(16.dp)).padding(14.dp)) {
-                    Box(Modifier.size(36.dp).background(BookColors.Friends, CircleShape), contentAlignment = Alignment.Center) {
-                        Text("${i + 1}", color = Color.White, fontWeight = FontWeight.Bold)
-                    }
-                    Spacer(Modifier.width(12.dp))
-                    Column {
-                        Text(s.title, style = MaterialTheme.typography.titleSmall)
-                        Text(s.text, style = MaterialTheme.typography.bodyLarge)
-                    }
-                }
-            }
+            ReadToMeButton("howto", { listOf(book.howToRead) })
+            Text(book.howToRead, style = HandStyle,
+                modifier = Modifier.fillMaxWidth().notebookPaper().padding(start = 26.dp, end = 12.dp, bottom = 8.dp))
             SectionCard(background = BookColors.Magic) {
                 Text(book.alwaysTell.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Text(book.alwaysTell.text, style = MaterialTheme.typography.bodyLarge)
@@ -375,6 +369,56 @@ fun HowToUseScreen(content: BookContent, nav: Nav) {
     }
 }
 
+/* ---------------- The most useful thing I learned ---------------- */
+
+@Composable
+fun UsefulThingScreen(content: BookContent, nav: Nav) {
+    val u = content.book.usefulThing
+    KidScaffold(title = "Exit now. Tell later.", onBack = nav::back, onHome = nav::home, onHelp = nav::help) { pad ->
+        ScreenColumn(pad) {
+            Text(u.title, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.semantics { heading() })
+            ReadToMeButton("useful", {
+                listOf(u.title, u.intro) + u.steps.flatMap { listOf(it.title, it.text) + it.lines } +
+                    listOf(u.alwaysTitle) + u.always + u.alwaysOutro
+            })
+            UsefulThingCards(content)
+        }
+    }
+}
+
+/** The 'exit now, tell quietly later' lesson and the things you always tell. */
+@Composable
+fun UsefulThingCards(content: BookContent) {
+    val u = content.book.usefulThing
+    val speaker = com.beforeithappens.kidsbook.tts.LocalSpeaker.current
+    Text(u.intro, style = HandStyle, modifier = Modifier.fillMaxWidth().notebookPaper().padding(start = 26.dp, end = 12.dp, bottom = 8.dp))
+    u.steps.forEachIndexed { i, step ->
+        SectionCard(step.title, background = if (i == 0) BookColors.TryIt else Color(0xFFF1ECFA)) {
+            Text(step.text, style = MaterialTheme.typography.bodyLarge)
+            step.lines.forEach { line ->
+                if (i == 0) {
+                    Text(
+                        "\u201C$line\u201D",
+                        style = HandStyle,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White, RoundedCornerShape(18.dp))
+                            .border(2.dp, BookColors.Ink, RoundedCornerShape(18.dp))
+                            .clickable(role = Role.Button, onClickLabel = "hear it") { speaker.speak(line) }
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
+                    )
+                } else {
+                    Text("– $line", style = MaterialTheme.typography.bodyLarge)
+                }
+            }
+        }
+    }
+    SectionCard(u.alwaysTitle, background = Color(0xFFFDECEA), titleColor = BookColors.HelpRedText) {
+        u.always.forEach { Text("• $it", style = MaterialTheme.typography.bodyLarge) }
+        Text(u.alwaysOutro, style = MaterialTheme.typography.titleSmall)
+    }
+}
+
 /* ---------------- Activities hub ---------------- */
 
 @Composable
@@ -382,10 +426,11 @@ fun ActivitiesScreen(nav: Nav) {
     data class Item(val title: String, val desc: String, val route: String, val color: Color)
     val games = listOf(
         Item("What If? Cards", "Pull a card. What would you do?", Routes.WHAT_IF, BookColors.Friends),
-        Item("Surprise or Tell?", "Is it a fun surprise, or should you tell?", Routes.SURPRISE, BookColors.Safe),
+        Item("Keep It or Tell It?", "Some secrets are fine to keep. Some need a grown-up.", Routes.KEEP_TELL, BookColors.Safe),
         Item("Good Friend or Bossy Friend?", "Sort them into two piles.", Routes.GOOD_BOSSY, BookColors.Feelings),
     )
     val pages = listOf(
+        Item("My Exit Lines", "Low-key lines that sound like YOU.", Routes.EXIT_LINES, BookColors.Friends),
         Item("My Safety Hand", "Five grown-ups I can tell anything.", Routes.HAND, BookColors.Safe),
         Item("Things I Know By Heart", "Names, numbers and our password. (Grown-up PIN)", Routes.HEART, BookColors.Safe),
         Item("My Personal Bests", "The only person you're racing is YOU!", Routes.BESTS, BookColors.Feelings),

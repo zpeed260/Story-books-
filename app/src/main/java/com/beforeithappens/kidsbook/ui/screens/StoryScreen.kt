@@ -58,6 +58,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.beforeithappens.kidsbook.data.BookContent
 import com.beforeithappens.kidsbook.data.Story
+import com.beforeithappens.kidsbook.data.spokenLine
+import com.beforeithappens.kidsbook.ui.theme.HandStyle
+import com.beforeithappens.kidsbook.ui.theme.notebookPaper
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.material.icons.filled.Schedule
 import com.beforeithappens.kidsbook.data.UserData
 import com.beforeithappens.kidsbook.tts.LocalSpeaker
 import com.beforeithappens.kidsbook.ui.Nav
@@ -78,7 +84,8 @@ import kotlinx.coroutines.delay
 private val tryItLinks = listOf(
     "Good Friend or Bossy Friend" to Routes.GOOD_BOSSY,
     "Personal Bests" to Routes.BESTS,
-    "Surprise or Tell" to Routes.SURPRISE,
+    "Keep It or Tell It" to Routes.KEEP_TELL,
+    "Exit Lines" to Routes.EXIT_LINES,
     "Safety Hand" to Routes.HAND,
     "Calm-Down Plan" to Routes.CALM,
     "Tech Rules" to Routes.TECH,
@@ -99,6 +106,7 @@ fun StoryScreen(
     val part = content.part(story.part)
     val color = part?.let { parseHex(it.color) } ?: BookColors.Friends
     val speaker = LocalSpeaker.current
+    val prompt = content.book.myTurnPrompt
 
     // Panels appear one at a time.
     var shownPanels by remember(storyId) { mutableIntStateOf(0) }
@@ -110,30 +118,29 @@ fun StoryScreen(
     }
 
     KidScaffold(
-        title = "Story ${story.id}",
+        title = "Entry ${story.id}",
         color = color,
         onBack = nav::back,
         onHome = nav::home,
         onHelp = nav::help,
     ) { pad ->
         ScreenColumn(pad) {
-            // Title band.
+            // Entry header, like the top of a journal page.
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .background(color.forWhiteText(), RoundedCornerShape(16.dp))
-                    .padding(16.dp),
+                    .background(lerp(Color.White, color, 0.28f), RoundedCornerShape(8.dp))
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
             ) {
                 Text(
-                    "STORY ${story.id} • ${part?.name?.uppercase() ?: ""}",
-                    color = Color.White,
+                    "Entry ${story.id} • ${story.day} • ${part?.name ?: ""}",
+                    color = BookColors.Ink,
                     style = MaterialTheme.typography.labelMedium,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         story.title,
-                        color = Color.White,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.weight(1f).semantics { heading() },
                     )
                     val fav = story.id in user.favourites
@@ -143,11 +150,24 @@ fun StoryScreen(
                         Icon(
                             if (fav) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                             contentDescription = if (fav) "Remove from favourites" else "Add to favourites",
-                            tint = Color.White,
+                            tint = BookColors.HelpRedText,
                         )
                     }
                 }
             }
+
+            // Alex's journal bit, handwritten on ruled paper.
+            Text(
+                story.journal,
+                style = HandStyle,
+                color = BookColors.Ink,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .border(1.dp, Color(0x22000000), RoundedCornerShape(8.dp))
+                    .notebookPaper()
+                    .padding(start = 26.dp, end = 14.dp, top = 6.dp, bottom = 12.dp),
+            )
 
             ReadToMeButton("story-${story.id}", { storyReadAloud(content, story) }, modifier = Modifier.fillMaxWidth())
 
@@ -176,15 +196,17 @@ fun StoryScreen(
                 textAlign = TextAlign.Center,
             )
 
-            SectionCard("What's happening?", Icons.Filled.Lightbulb) {
-                Text(story.happening, style = MaterialTheme.typography.bodyLarge)
+            SectionCard("What I figured out", Icons.Filled.Lightbulb, background = Color(0xFFFFF6D6)) {
+                story.figured.forEach { Bullet(it, mark = "–") }
             }
 
-            SectionCard("Remember", Icons.Filled.Star) {
-                story.remember.forEach { Bullet(it, mark = "✓") }
-            }
+            SayNowSection(story)
 
-            SayThisSection(story)
+            story.later?.let { later ->
+                SectionCard("Later", Icons.Filled.Schedule) {
+                    Text(later, style = MaterialTheme.typography.bodyLarge)
+                }
+            }
 
             MagicWordsCard(story, collected = story.id in user.magicCollected) {
                 update { it.copy(magicCollected = it.magicCollected + story.id) }
@@ -197,7 +219,7 @@ fun StoryScreen(
                 }
             }
 
-            MyTurnCard(story, user.myTurn[story.id] ?: "") { text ->
+            MyTurnCard(story, prompt, user.myTurn[story.id] ?: "") { text ->
                 update { it.copy(myTurn = it.myTurn + (story.id to text)) }
             }
 
@@ -205,7 +227,7 @@ fun StoryScreen(
 
             val read = story.id in user.readStories
             if (!read) {
-                BigButton("I've read this story", {
+                BigButton("I've read this entry", {
                     update { it.copy(readStories = it.readStories + story.id) }
                 }, color = BookColors.Good, icon = Icons.Filled.CheckCircle, modifier = Modifier.fillMaxWidth())
             } else {
@@ -215,37 +237,37 @@ fun StoryScreen(
                 ) {
                     Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = BookColors.Good)
                     Spacer(Modifier.width(8.dp))
-                    Text("You've read this story. Well done!", style = MaterialTheme.typography.bodyLarge)
+                    Text("You've read this entry. Well done!", style = MaterialTheme.typography.bodyLarge)
                 }
             }
             content.story(story.id + 1)?.let { next ->
-                BigButton("Next story: ${next.title}", { nav.story(next.id) }, color = color, modifier = Modifier.fillMaxWidth())
+                BigButton("Next entry: ${next.title}", { nav.story(next.id) }, color = content.part(next.part)?.let { parseHex(it.color) } ?: color, modifier = Modifier.fillMaxWidth())
             }
         }
     }
 }
 
 private fun storyReadAloud(content: BookContent, story: Story): List<String> = buildList {
-    add("Story ${story.id}. ${story.title}.")
+    add("Entry ${story.id}. ${story.day}. ${story.title}.")
+    add(story.journal)
     story.panels.forEachIndexed { i, p -> add(content.describePanel(p, i + 1)) }
-    add("What's happening? ${story.happening}")
-    add("Remember.")
-    addAll(story.remember)
-    add("Say this.")
-    addAll(story.sayThis)
+    add("What I figured out.")
+    addAll(story.figured)
+    add("What I can say right now.")
+    addAll(story.sayNow)
+    story.later?.let { add("Later: $it") }
     add("Magic Words: ${story.magicWords}")
     add("Try it! ${story.tryIt}")
-    add("My Turn: ${story.myTurnPrompt}")
 }
 
 @Composable
-private fun SayThisSection(story: Story) {
+private fun SayNowSection(story: Story) {
     val speaker = LocalSpeaker.current
     var practising by remember { mutableStateOf<String?>(null) }
 
-    SectionCard("Say this", Icons.AutoMirrored.Filled.Chat) {
-        Text("Tap a bubble to hear it.", style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted)
-        story.sayThis.forEachIndexed { i, line ->
+    SectionCard("What I can say right now", Icons.AutoMirrored.Filled.Chat) {
+        Text("Low-key and calm. Tap a bubble to hear it.", style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted)
+        story.sayNow.forEachIndexed { i, line ->
             Column(Modifier.fillMaxWidth()) {
                 Row(
                     Modifier
@@ -253,11 +275,11 @@ private fun SayThisSection(story: Story) {
                         .heightIn(min = 56.dp)
                         .background(Color.White, RoundedCornerShape(20.dp))
                         .border(2.dp, BookColors.Ink, RoundedCornerShape(20.dp))
-                        .clickable(role = Role.Button, onClickLabel = "hear it") { speaker.speak(line, "say-${story.id}-$i") }
+                        .clickable(role = Role.Button, onClickLabel = "hear it") { speaker.speak(spokenLine(line), "say-${story.id}-$i") }
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(line, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                    Text(line, style = HandStyle, modifier = Modifier.weight(1f))
                     Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null, tint = BookColors.Friends)
                 }
                 TextButton(
@@ -280,8 +302,8 @@ private fun SayThisSection(story: Story) {
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
-                        if (saidIt) "Saying it out loud makes it easier to say for real. Try it again in your strongest voice!"
-                        else "Stand tall, look up, and say it in a strong, clear voice:",
+                        if (saidIt) "Saying it out loud makes it easier to say for real. Try it again, nice and calm!"
+                        else "Say it calmly, like it's no big deal. Then walk away:",
                         style = MaterialTheme.typography.bodyLarge,
                     )
                     Text(
@@ -302,7 +324,7 @@ private fun SayThisSection(story: Story) {
                 }
             },
             dismissButton = {
-                TextButton(onClick = { speaker.speak(line) }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hear it first") }
+                TextButton(onClick = { speaker.speak(spokenLine(line)) }, modifier = Modifier.heightIn(min = 48.dp)) { Text("Hear it first") }
             },
         )
     }
@@ -347,10 +369,10 @@ private fun MagicWordsCard(story: Story, collected: Boolean, onGotIt: () -> Unit
 }
 
 @Composable
-private fun MyTurnCard(story: Story, saved: String, onSave: (String) -> Unit) {
+private fun MyTurnCard(story: Story, prompt: String, saved: String, onSave: (String) -> Unit) {
     var text by remember(story.id) { mutableStateOf(saved) }
     SectionCard("My Turn", Icons.Filled.EditNote) {
-        Text(story.myTurnPrompt, style = MaterialTheme.typography.bodyLarge)
+        Text(prompt, style = MaterialTheme.typography.bodyLarge)
         OutlinedTextField(
             value = text,
             onValueChange = { text = it.take(2000); onSave(text) },
@@ -380,7 +402,7 @@ private fun GrownUpCorner(story: Story) {
                 .semantics { stateDescription = if (open) "Open" else "Closed" },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("Grown-up Corner (for grown-ups)", style = MaterialTheme.typography.labelMedium, color = BookColors.Muted,
+            Text("GROWN-UP CORNER (for grown-ups)", style = MaterialTheme.typography.labelMedium, color = BookColors.Muted,
                 modifier = Modifier.weight(1f))
             Icon(if (open) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, contentDescription = null, tint = BookColors.Muted)
         }

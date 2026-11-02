@@ -21,20 +21,31 @@ data class Part(
     val color: String,
 )
 
+/** One journal entry. */
 @Serializable
 data class Story(
     val id: Int,
     val part: Int,
+    val day: String = "",
     val title: String,
+    val journal: String,
     val panels: List<Panel>,
-    val happening: String,
-    val remember: List<String>,
-    val sayThis: List<String>,
+    val figured: List<String>,
+    val sayNow: List<String>,
+    val later: String? = null,
     val magicWords: String,
     val tryIt: String,
-    val myTurnPrompt: String,
     val grownUp: GrownUpCorner,
 )
+
+/**
+ * The words to speak aloud for a 'What I can say right now' line: the quoted part if there is
+ * one ("You do it." (and walk off) -> You do it.), otherwise the whole line.
+ */
+fun spokenLine(line: String): String {
+    val quoted = Regex("\"([^\"]+)\"").findAll(line).map { it.groupValues[1] }.toList()
+    return if (quoted.isNotEmpty()) quoted.joinToString(" ") else line.replace(Regex("\\([^)]*\\)"), "").trim().ifEmpty { line }
+}
 
 @Serializable
 data class Panel(
@@ -67,14 +78,15 @@ data class GrownUpCorner(val ask: String, val tip: String)
 
 @Serializable
 data class Games(
-    val surpriseOrTell: List<SurpriseItem>,
+    val keepOrTell: List<KeepItem>,
+    val keepOrTellTest: String,
     val whatIfCards: List<String>,
     val goodOrBossyFriend: GoodOrBossy,
 )
 
 @Serializable
-data class SurpriseItem(val statement: String, val answer: String) {
-    val isSurprise: Boolean get() = answer.equals("Surprise", ignoreCase = true)
+data class KeepItem(val statement: String, val answer: String) {
+    val isKeep: Boolean get() = answer.equals("Keep", ignoreCase = true)
 }
 
 @Serializable
@@ -86,6 +98,7 @@ data class Activities(
     val techRules: List<String>,
     val calmPlan: List<CalmLevel>,
     val calmPrompts: List<String>,
+    val exitLines: List<String>,
 )
 
 @Serializable
@@ -96,12 +109,15 @@ data class CalmLevel(val level: Int, val label: String, val action: String)
 @Serializable
 data class BookFile(
     val cover: Cover,
+    val intro: Intro,
     val belongsTo: BelongsTo,
     val crewIntro: String,
     val crewOutro: String,
     val crew: List<CrewMember>,
-    val howToUse: List<HowToStep>,
+    val usefulThing: UsefulThing,
+    val howToRead: String,
     val alwaysTell: TitledText,
+    val myTurnPrompt: String,
     val grownUpsReading: GrownUpsReading,
     val activityIntros: ActivityIntros,
     val whatIfStories: List<Int>,
@@ -110,16 +126,29 @@ data class BookFile(
 )
 
 @Serializable
-data class Cover(val title: String, val subtitle: String, val tagline: String, val features: String)
+data class Cover(val title: String, val subtitle: String, val tagline: String, val private: String, val features: String)
+
+@Serializable
+data class Intro(val title: String, val paragraphs: List<String>)
+
+@Serializable
+data class UsefulThing(
+    val title: String,
+    val intro: String,
+    val steps: List<UsefulStep>,
+    val alwaysTitle: String,
+    val always: List<String>,
+    val alwaysOutro: String,
+)
+
+@Serializable
+data class UsefulStep(val title: String, val text: String, val lines: List<String>)
 
 @Serializable
 data class BelongsTo(val nameLabel: String, val buddyLabel: String, val text: String, val tellExplainer: String)
 
 @Serializable
 data class CrewMember(val who: String, val text: String)
-
-@Serializable
-data class HowToStep(val title: String, val text: String)
 
 @Serializable
 data class TitledText(val title: String, val text: String)
@@ -148,11 +177,12 @@ data class ActivityIntro(
 @Serializable
 data class ActivityIntros(
     val magicWords: ActivityIntro,
+    val keepOrTell: ActivityIntro,
     val goodOrBossy: ActivityIntro,
+    val exitLines: ActivityIntro,
     val personalBests: ActivityIntro,
     val safetyHand: ActivityIntro,
     val knowByHeart: ActivityIntro,
-    val surpriseOrTell: ActivityIntro,
     val whatIf: ActivityIntro,
     val techRules: ActivityIntro,
     val calmPlan: ActivityIntro,
@@ -187,6 +217,11 @@ data class CharacterSpec(
     val legs: String,
     val height: Float = 1f,
     val glasses: Boolean = false,
+    /** Optional details from the journal drawings. */
+    val pocket: String? = null,
+    val stripes: String? = null,
+    val number: String? = null,
+    val freckles: Boolean = false,
 ) {
     /** Name used when reading a speech bubble aloud, e.g. "Theo" or "A grown-up". */
     val spokenName: String get() = shortName ?: name
@@ -210,7 +245,8 @@ class BookContent(val stories: StoriesFile, val book: BookFile) {
 
     /** Plain-language description of a comic panel for TalkBack and 'Read to me'. */
     fun describePanel(panel: Panel, number: Int): String = buildString {
-        append("Panel ").append(number).append(": ").append(panel.caption).append(". ")
+        append("Panel ").append(number).append(": ").append(panel.caption)
+        append(if (panel.caption.trimEnd().lastOrNull() in listOf('.', '!', '?')) " " else ". ")
         panel.speech.forEach { s -> append(describeSpeech(panel, s)).append(" ") }
     }.trim()
 

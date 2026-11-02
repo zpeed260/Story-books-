@@ -13,6 +13,8 @@ import java.security.SecureRandom
 /** Everything the child (or their grown-up) types. Stored only on this device. */
 @Serializable
 data class UserData(
+    /** Which edition of the book the progress below belongs to (2 = Alex's journal). */
+    val contentVersion: Int = 1,
     val onboarded: Boolean = false,
     val name: String = "",
     val avatar: String = "zara",
@@ -32,6 +34,9 @@ data class UserData(
     val extraRules: String = "",
     val grownUpSignature: String = "",
     val mySignature: String = "",
+    val exitFavourites: Set<Int> = emptySet(),
+    val ownExitLines: String = "",
+    val quietTellGrownUps: String = "",
     val pinHash: String? = null,
     val pinSalt: String? = null,
 ) {
@@ -47,22 +52,37 @@ data class Skill(val name: String, val entries: List<ScoreEntry> = emptyList())
 @Serializable
 data class ScoreEntry(val date: String, val score: Double)
 
+const val CONTENT_VERSION = 2
+
+/**
+ * Progress tied to story numbers (read ticks, favourites, Magic Words, My Turn answers) can't
+ * carry over from the 22-story edition to the 32-entry journal, so it starts fresh. Everything
+ * else the child typed (name, Safety Hand, plans, scores, PIN) is kept.
+ */
+fun UserData.migrated(): UserData =
+    if (contentVersion >= CONTENT_VERSION) this
+    else copy(
+        contentVersion = CONTENT_VERSION,
+        readStories = emptySet(),
+        favourites = emptySet(),
+        magicCollected = emptySet(),
+        myTurn = emptyMap(),
+    )
+
+private fun decode(raw: String?): UserData =
+    raw?.let { runCatching { BookContent.json.decodeFromString(UserData.serializer(), it) }.getOrNull() }?.migrated()
+        ?: UserData(contentVersion = CONTENT_VERSION)
+
 private val Context.dataStore by preferencesDataStore(name = "kids_book")
 private val USER_KEY = stringPreferencesKey("user_data")
 
 class UserStore(private val context: Context) {
 
-    val data: Flow<UserData> = context.dataStore.data.map { prefs ->
-        prefs[USER_KEY]?.let {
-            runCatching { BookContent.json.decodeFromString(UserData.serializer(), it) }.getOrNull()
-        } ?: UserData()
-    }
+    val data: Flow<UserData> = context.dataStore.data.map { prefs -> decode(prefs[USER_KEY]) }
 
     suspend fun update(transform: (UserData) -> UserData) {
         context.dataStore.edit { prefs ->
-            val current = prefs[USER_KEY]?.let {
-                runCatching { BookContent.json.decodeFromString(UserData.serializer(), it) }.getOrNull()
-            } ?: UserData()
+            val current = decode(prefs[USER_KEY])
             prefs[USER_KEY] = BookContent.json.encodeToString(UserData.serializer(), transform(current))
         }
     }

@@ -31,7 +31,9 @@ import com.beforeithappens.kidsbook.ui.screens.PartScreen
 import com.beforeithappens.kidsbook.ui.screens.PersonalBestsScreen
 import com.beforeithappens.kidsbook.ui.screens.SafetyHandScreen
 import com.beforeithappens.kidsbook.ui.screens.StoryScreen
-import com.beforeithappens.kidsbook.ui.screens.SurpriseOrTellScreen
+import com.beforeithappens.kidsbook.ui.screens.KeepOrTellScreen
+import com.beforeithappens.kidsbook.ui.screens.ExitLinesScreen
+import com.beforeithappens.kidsbook.ui.screens.UsefulThingScreen
 import com.beforeithappens.kidsbook.ui.screens.TechRulesScreen
 import com.beforeithappens.kidsbook.ui.screens.WhatIfScreen
 import com.beforeithappens.kidsbook.ui.screens.WhoCanHelpScreen
@@ -44,7 +46,9 @@ object Routes {
     const val MAGIC = "magic"
     const val ACTIVITIES = "activities"
     const val WHAT_IF = "whatif"
-    const val SURPRISE = "surprise"
+    const val KEEP_TELL = "keeptell"
+    const val EXIT_LINES = "exitlines"
+    const val USEFUL = "useful"
     const val GOOD_BOSSY = "goodbossy"
     const val HAND = "hand"
     const val HEART = "heart"
@@ -109,7 +113,9 @@ private fun BookNavHost(
         composable(Routes.MAGIC) { MagicWordsScreen(content, user, nav) }
         composable(Routes.ACTIVITIES) { ActivitiesScreen(nav) }
         composable(Routes.WHAT_IF) { WhatIfScreen(content, nav) }
-        composable(Routes.SURPRISE) { SurpriseOrTellScreen(content, nav) }
+        composable(Routes.KEEP_TELL) { KeepOrTellScreen(content, nav) }
+        composable(Routes.EXIT_LINES) { ExitLinesScreen(content, user, vm::update, nav) }
+        composable(Routes.USEFUL) { UsefulThingScreen(content, nav) }
         composable(Routes.GOOD_BOSSY) { GoodOrBossyScreen(content, nav) }
         composable(Routes.HAND) { SafetyHandScreen(content, user, vm::update, nav) }
         composable(Routes.HEART) { KnowByHeartScreen(content, user, vm, nav) }

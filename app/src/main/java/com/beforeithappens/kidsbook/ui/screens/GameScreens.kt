@@ -56,6 +56,12 @@ import com.beforeithappens.kidsbook.ui.components.ScreenColumn
 import com.beforeithappens.kidsbook.ui.components.SectionCard
 import com.beforeithappens.kidsbook.ui.theme.BookColors
 import com.beforeithappens.kidsbook.ui.theme.FeelingsDark
+import com.beforeithappens.kidsbook.ui.theme.HandStyle
+import com.beforeithappens.kidsbook.data.spokenLine
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.OutlinedTextField
 
 /* ---------------- Magic Words ---------------- */
 
@@ -70,7 +76,7 @@ fun MagicWordsScreen(content: BookContent, user: UserData, nav: Nav) {
         ScreenColumn(pad) {
             Text(intro.text, style = MaterialTheme.typography.bodyLarge)
             Text(
-                "You've collected ${user.magicCollected.size} of ${content.allStories.size}. Tap 'Got it!' in a story to add one.",
+                "You've collected ${user.magicCollected.size} of ${content.allStories.size}. Tap 'Got it!' in an entry to add one.",
                 style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted,
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -80,7 +86,7 @@ fun MagicWordsScreen(content: BookContent, user: UserData, nav: Nav) {
                     modifier = Modifier.heightIn(min = 48.dp))
             }
             if (quiz) {
-                Text("Read the story title. Can you remember the Magic Words? Then tap to flip and check.",
+                Text("Read the entry title. Can you remember the Magic Words? Then tap to flip and check.",
                     style = MaterialTheme.typography.bodyLarge)
             } else {
                 Text("Tap a card to flip it.", style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted)
@@ -175,9 +181,9 @@ fun WhatIfScreen(content: BookContent, nav: Nav) {
                 Spacer(Modifier.heightIn(min = 8.dp))
                 Text(cards[index], color = Color.White, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
             }
-            Text("Say what you'd do. Then test your grown-up!", style = MaterialTheme.typography.bodyLarge)
+            Text("Say what you'd do now, and who you'd tell later. Then test your grown-up!", style = MaterialTheme.typography.bodyLarge)
             content.storyForWhatIf(index)?.let { story ->
-                BigButton("Show me (Story ${story.id})", { nav.story(story.id) }, color = BookColors.Safe, modifier = Modifier.fillMaxWidth())
+                BigButton("Show me (Entry ${story.id})", { nav.story(story.id) }, color = BookColors.Safe, modifier = Modifier.fillMaxWidth())
             }
             BigButton("Next card", {
                 if (pos + 1 < order.size) pos += 1 else { order = cards.indices.shuffled(); pos = 0 }
@@ -188,15 +194,16 @@ fun WhatIfScreen(content: BookContent, nav: Nav) {
     }
 }
 
-/* ---------------- Surprise or Tell? ---------------- */
+/* ---------------- Keep It or Tell It? ---------------- */
 
 @Composable
-fun SurpriseOrTellScreen(content: BookContent, nav: Nav) {
-    val intro = content.book.activityIntros.surpriseOrTell
-    val items = content.stories.games.surpriseOrTell
+fun KeepOrTellScreen(content: BookContent, nav: Nav) {
+    val intro = content.book.activityIntros.keepOrTell
+    val items = content.stories.games.keepOrTell
+    val test = content.stories.games.keepOrTellTest
     var pos by rememberSaveable { mutableIntStateOf(0) }
     var score by rememberSaveable { mutableIntStateOf(0) }
-    var answered by rememberSaveable { mutableStateOf<Boolean?>(null) } // the child's choice: true = surprise
+    var answered by rememberSaveable { mutableStateOf<Boolean?>(null) } // the child's choice: true = keep it
     val speaker = LocalSpeaker.current
 
     KidScaffold(title = intro.title, color = BookColors.Safe, onBack = nav::back, onHome = nav::home, onHelp = nav::help) { pad ->
@@ -209,9 +216,7 @@ fun SurpriseOrTellScreen(content: BookContent, nav: Nav) {
                         Spacer(Modifier.width(8.dp))
                         Text("You got $score out of ${items.size}!", style = MaterialTheme.typography.headlineSmall)
                     }
-                    Text("Surprises are fun. Secrets get told.", style = MaterialTheme.typography.titleMedium)
-                    Text("If someone wants something hidden from your parents, tell a grown-up on your Safety Hand.",
-                        style = MaterialTheme.typography.bodyLarge)
+                    Text(test, style = MaterialTheme.typography.bodyLarge)
                 }
                 BigButton("Play again", { pos = 0; score = 0; answered = null }, color = BookColors.Safe, modifier = Modifier.fillMaxWidth())
                 return@ScreenColumn
@@ -234,25 +239,23 @@ fun SurpriseOrTellScreen(content: BookContent, nav: Nav) {
             val choice = answered
             if (choice == null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    BigButton("Surprise!", {
+                    BigButton("Keep it", {
                         answered = true
-                        if (item.isSurprise) score++
-                    }, color = FeelingsDark, modifier = Modifier.weight(1f).heightIn(min = 72.dp))
-                    BigButton("Tell!", {
+                        if (item.isKeep) score++
+                    }, color = BookColors.Friends, modifier = Modifier.weight(1f).heightIn(min = 72.dp))
+                    BigButton("Tell it!", {
                         answered = false
-                        if (!item.isSurprise) score++
+                        if (!item.isKeep) score++
                     }, color = BookColors.Safe, modifier = Modifier.weight(1f).heightIn(min = 72.dp))
                 }
             } else {
-                val right = choice == item.isSurprise
+                val right = choice == item.isKeep
                 val msg = when {
-                    right && item.isSurprise -> "Yes! That's a surprise. It's fun, and everyone finds out soon."
-                    right -> "Yes! That's a TELL. Someone wants it hidden from your parents, so tell a grown-up."
-                    item.isSurprise -> "Good try! This one is a surprise. It's fun, and everyone finds out soon."
-                    else -> "Good try! This one is a TELL. Someone wants it hidden from your parents, so tell a grown-up."
+                    item.isKeep -> "This one is fine to keep. Nobody gets hurt, and no grown-up asked you to hide it from your parents."
+                    else -> "This one is a TELL, even if you promised. Tell a grown-up you trust. That's not dobbing. That's how people get help."
                 }
                 SectionCard(background = if (right) Color(0xFFE8F5E9) else BookColors.Magic) {
-                    Text(if (right) "✓ Right!" else "Let's check", style = MaterialTheme.typography.titleLarge)
+                    Text(if (right) "✓ Right!" else "Good try!", style = MaterialTheme.typography.titleLarge)
                     Text(msg, style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
                 }
@@ -260,7 +263,77 @@ fun SurpriseOrTellScreen(content: BookContent, nav: Nav) {
                     pos++; answered = null
                 }, color = BookColors.Safe, modifier = Modifier.fillMaxWidth())
             }
+            Text(test, style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted)
             Text("Score: $score", style = MaterialTheme.typography.labelLarge)
+        }
+    }
+}
+
+/* ---------------- My Exit Lines ---------------- */
+
+@Composable
+fun ExitLinesScreen(
+    content: BookContent,
+    user: UserData,
+    update: ((UserData) -> UserData) -> Unit,
+    nav: Nav,
+) {
+    val intro = content.book.activityIntros.exitLines
+    val lines = content.stories.activities.exitLines
+    val speaker = LocalSpeaker.current
+    var own by remember { mutableStateOf(user.ownExitLines) }
+    var quiet by remember { mutableStateOf(user.quietTellGrownUps) }
+
+    KidScaffold(title = intro.title, onBack = nav::back, onHome = nav::home, onHelp = nav::help) { pad ->
+        ScreenColumn(pad) {
+            Text(intro.text, style = MaterialTheme.typography.bodyLarge)
+            Text("Tap a line to hear it. Tap the star to make it one of yours.",
+                style = MaterialTheme.typography.bodyMedium, color = BookColors.Muted)
+            lines.forEachIndexed { i, line ->
+                val fav = i in user.exitFavourites
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 56.dp)
+                        .background(if (fav) BookColors.Magic else Color.White, RoundedCornerShape(20.dp))
+                        .border(2.dp, BookColors.Ink, RoundedCornerShape(20.dp))
+                        .padding(start = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        "\u201C$line\u201D",
+                        style = HandStyle,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable(role = Role.Button, onClickLabel = "hear it") { speaker.speak(spokenLine("\"$line\"")) }
+                            .padding(vertical = 10.dp),
+                    )
+                    IconToggleButton(checked = fav, onCheckedChange = {
+                        update { u -> u.copy(exitFavourites = if (fav) u.exitFavourites - i else u.exitFavourites + i) }
+                    }) {
+                        Icon(
+                            if (fav) Icons.Filled.Star else Icons.Filled.StarBorder,
+                            contentDescription = if (fav) "One of my lines" else "Make this one of my lines",
+                            tint = FeelingsDark,
+                        )
+                    }
+                }
+            }
+            OutlinedTextField(
+                value = own,
+                onValueChange = { own = it.take(1000); update { u -> u.copy(ownExitLines = own) } },
+                label = { Text(intro.extra ?: "My own exit lines:") },
+                minLines = 3,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            OutlinedTextField(
+                value = quiet,
+                onValueChange = { quiet = it.take(1000); update { u -> u.copy(quietTellGrownUps = quiet) } },
+                label = { Text(intro.grownUpSignature ?: "Grown-ups I can tell quietly later:") },
+                minLines = 2,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Text("These stay on this device only.", style = MaterialTheme.typography.bodySmall, color = BookColors.Muted)
         }
     }
 }

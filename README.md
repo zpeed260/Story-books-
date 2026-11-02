@@ -1,30 +1,32 @@
-# Before It Happens: The Kids' Book (Android)
+# Before It Happens: Alex's Journal (Android)
 
-An Android picture-book app for kids aged 8 to 11, built from the brief in
-[`docs/Before_It_Happens_Kids_Book.md`](docs/Before_It_Happens_Kids_Book.md).
-It covers 22 everyday situations, each with a comic, words to say, Magic Words and a game.
+An Android app for kids aged 8 to 11, built from *Before It Happens: Alex's Journal*
+([`docs/Before_It_Happens_Journal.pdf`](docs/Before_It_Happens_Journal.pdf)). Alex, a Year 5 kid, writes up 32
+tricky situations and what to actually say when they happen: **exit now** with a low-key line, then **tell
+quietly later**. See [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) for the sources and what changed from the
+first edition.
 
-![Home, cover and a story screen](docs/screenshots/app.png)
-![Comics drawn in Compose Canvas](docs/screenshots/comics.png)
+![Cover, home, an entry and My Exit Lines](docs/screenshots/app.png)
+![Comics drawn in Compose Canvas in the journal's line-drawn style](docs/screenshots/comics.png)
 
 ## What's in it
 
-- **Onboarding:** "This book belongs to", reading buddy, pick an avatar from the crew.
-- **Home:** the three parts, Magic Words, Activities, Meet the crew, How to use this book, and a grown-ups area.
+- **Onboarding:** the cover, "Hi. I'm Alex.", "This copy belongs to" and reading buddy, pick an avatar from the
+  crew, then the most useful thing Alex learned.
+- **Home:** The most useful thing I learned (exit now, tell quietly later, what you always tell), the five
+  sections, Magic Words, Activities, Meet the crew, How to read each entry, and a grown-ups area.
   A red **Who can help** button is on every kids' screen.
-- **22 stories:** a three-panel comic (panels animate in; tap one to hear it), What's happening?, Remember,
-  Say this (tap to hear, plus a "Say it out loud" practice prompt), Magic Words with **Got it!**, Try it!
-  (with a shortcut to the matching activity), My Turn (saved on the device), and a collapsed Grown-up Corner.
-  "Read to me" reads the whole story. Stories get a tick when read and can be favourited.
-- **Games:** Magic Words flip cards with a Quiz me mode, What If? cards (Show me jumps to the story),
-  Surprise or Tell? with a score, and Good Friend or Bossy Friend? sorting.
-- **My pages:** Safety Hand, Things I Know By Heart (behind the PIN, with a Practise mode), Personal Bests
-  (new bests starred, with a line chart), Calm-Down Plan (1 to 5 scale, four prompts, 5-breath flower and
-  candle animation), Our Tech Rules.
+- **32 journal entries:** Alex's handwritten journal bit on ruled paper, a three-panel comic (panels animate in;
+  tap one to hear it), What I figured out, What I can say right now (tap to hear, plus a "Say it out loud"
+  practice prompt), Later, Magic Words with **Got it!**, Try it! (with a shortcut to the matching page), My Turn
+  (saved on the device) and a collapsed Grown-up Corner. "Read to me" reads the whole entry.
+- **Games:** Magic Words flip cards with Quiz me, What If? cards (Show me jumps to the entry), Keep It or Tell It?
+  with a score, and Good Friend or Bossy Friend? sorting.
+- **My pages:** My Exit Lines, Safety Hand, Things I Know By Heart (behind the PIN, with a Practise mode),
+  Personal Bests, Calm-Down Plan (with a 5-breath flower and candle animation), Our Tech Rules.
 - **Who can help:** 000 and Kids Helpline open the dialler (`ACTION_DIAL`); the child presses call.
-  Their Safety Hand grown-ups appear underneath.
-- **Grown-ups area (PIN):** reading-together notes, "if your child tells you something serious", services
-  and further reading (websites appear only here), every Grown-up Corner tip, change PIN, and reset all data.
+- **Grown-ups area (PIN):** the grown-up notes, services and further reading (websites appear only here), every
+  Grown-up Corner tip, change PIN and reset all data.
 
 ## Privacy and safety
 
@@ -40,12 +42,14 @@ It covers 22 everyday situations, each with a comic, words to say, Magic Words a
 
 All wording lives in `app/src/main/assets/`:
 
-- `stories.json`: Appendix 1 from the brief, unchanged (stories, comic panels, games, activities).
-- `book.json`: the front pages, activity page intros, Part E (Who can help), the character specs from
-  Appendix 2, and `whatIfStories`, which maps each of the 27 What If? cards to a story.
+- `stories.json`: the 5 sections and 32 entries (journal text, comic panels, What I figured out, What I can say
+  right now, Later, Magic Words, Try it!, Grown-up Corner), the games and the activity lists.
+- `book.json`: the cover and front pages, the most useful thing I learned, activity page intros, Who can help,
+  the character specs, and `whatIfStories`, which maps each of the 27 What If? cards to an entry.
 
 Editing these files changes the app without code changes. The comics are drawn in Compose `Canvas` from
 each panel's `scene`, `people` (`who`, `x`, `face`, `arm`, `item`, `facingLeft`, `tears`) and `speech`.
+Characters can have a `pocket`, `stripes`, a sports `number`, `glasses` and `freckles`, as in the journal drawings.
 
 ## Build
 
@@ -56,20 +60,15 @@ Requirements: JDK 17 or newer, Android SDK 36.
 ./gradlew :app:testDebugUnitTest      # content checks + screenshot tests
 ```
 
-`ContentTest` checks that all 22 stories, the games and the comic data are complete and drawable.
+`ContentTest` checks that all 32 entries, the games and the comic data are complete and drawable.
 `ScreenshotTest` uses Robolectric to render every comic and a walk through the app to
 `app/build/screenshots/`, so you can check the art without a device.
 
 Stack: Kotlin, Jetpack Compose, Material 3, Navigation Compose, DataStore, kotlinx.serialization;
-min SDK 26, target SDK 36. Font: Poppins (SIL Open Font License, see `app/src/main/assets/OFL-Poppins.txt`).
+min SDK 26, target SDK 36. Fonts: Poppins and Patrick Hand (SIL Open Font License, see `app/src/main/assets/OFL-*.txt`).
 
 ## Notes and choices
 
-- **What If? → story mapping** isn't in the brief's data, so it was added to `book.json`. Two judgement calls:
-  card 6 (picked last for teams) goes to Story 5 (left out), and card 27 (mean photo in a group chat) goes to
-  Story 7 (someone is mean), which mentions group chats.
-- **The PIN protects** Things I Know By Heart and the grown-ups area, as the brief describes. The Safety Hand
-  stays open so a child can always reach their grown-ups' numbers.
-- **The orange part colour** (`#D9822B`) is darkened automatically where white text sits on it, to meet
-  contrast guidelines.
-- Services and numbers are for Victoria, Australia, as in the brief (checked October 2026).
+See [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md). In short: My Turn is kept from the original app brief;
+characters get light skin tones; the grown-ups the PDF draws alike get different colours; progress tied to the
+old story numbers resets after the update; services and numbers are for Victoria, Australia (checked October 2026).

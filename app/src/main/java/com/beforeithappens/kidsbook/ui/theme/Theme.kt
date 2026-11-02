@@ -1,6 +1,12 @@
 package com.beforeithappens.kidsbook.ui.theme
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -56,13 +62,37 @@ val Poppins = FontFamily(
     Font(R.font.poppins_bold, FontWeight.Bold),
 )
 
+/** Handwriting font for Alex's journal bits, headings, speech bubbles and Magic Words. */
+val Hand = FontFamily(Font(R.font.patrick_hand, FontWeight.Normal))
+
+/** Text style for Alex's handwriting. */
+val HandStyle = TextStyle(fontFamily = Hand, fontSize = 21.sp, lineHeight = 30.sp)
+
+/** Notebook paper: faint blue ruled lines and a red margin, like the printed journal. */
+fun Modifier.notebookPaper(lineSpacing: Dp = 30.dp, margin: Boolean = true): Modifier = this
+    .background(Paper)
+    .drawBehind {
+        val step = lineSpacing.toPx()
+        var y = step
+        while (y < size.height) {
+            drawLine(PaperLine, Offset(0f, y), Offset(size.width, y), 1.dp.toPx())
+            y += step
+        }
+        if (margin) drawLine(PaperMargin, Offset(14.dp.toPx(), 0f), Offset(14.dp.toPx(), size.height), 1.5.dp.toPx())
+    }
+
+val Paper = Color(0xFFFFFDF7)
+val PaperLine = Color(0xFFDCE7F3)
+val PaperMargin = Color(0xFFF3B9B9)
+
 // No colour here: text takes its colour from the surface it sits on (ink on cream, white on buttons).
 private val base = TextStyle(fontFamily = Poppins)
 
 val KidsTypography = Typography(
-    displaySmall = base.copy(fontSize = 34.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold),
-    headlineMedium = base.copy(fontSize = 28.sp, lineHeight = 36.sp, fontWeight = FontWeight.Bold),
-    headlineSmall = base.copy(fontSize = 24.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold),
+    // Big headings use Alex's handwriting, like the printed journal.
+    displaySmall = TextStyle(fontFamily = Hand, fontSize = 40.sp, lineHeight = 46.sp),
+    headlineMedium = TextStyle(fontFamily = Hand, fontSize = 32.sp, lineHeight = 38.sp),
+    headlineSmall = TextStyle(fontFamily = Hand, fontSize = 28.sp, lineHeight = 34.sp),
     titleLarge = base.copy(fontSize = 22.sp, lineHeight = 30.sp, fontWeight = FontWeight.Bold),
     titleMedium = base.copy(fontSize = 20.sp, lineHeight = 28.sp, fontWeight = FontWeight.Medium),
     titleSmall = base.copy(fontSize = 18.sp, lineHeight = 26.sp, fontWeight = FontWeight.Medium),
