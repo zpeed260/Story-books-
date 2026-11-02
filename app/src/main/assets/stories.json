@@ -1,0 +1,2427 @@
+{
+  "parts": [
+    {
+      "id": 1,
+      "startsAtStory": 1,
+      "name": "Me and my friends",
+      "color": "#2E7D7A"
+    },
+    {
+      "id": 2,
+      "startsAtStory": 10,
+      "name": "Me and my feelings",
+      "color": "#D9822B"
+    },
+    {
+      "id": 3,
+      "startsAtStory": 17,
+      "name": "Keeping safe",
+      "color": "#7E57C2"
+    }
+  ],
+  "stories": [
+    {
+      "id": 1,
+      "part": 1,
+      "title": "When a friend is bossy",
+      "panels": [
+        {
+          "caption": "At lunch",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "cross",
+              "arm": "hips"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "worried",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Do what I say or you're not my friend!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam stops to think",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Hmm. That doesn't feel right.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Sam chooses",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "point"
+            },
+            {
+              "who": "ruby",
+              "x": 0.74,
+              "face": "happy",
+              "arm": "wave",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "That's bossing. I'm going to play with Ruby.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Come on, Sam!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Sometimes a friend tries to boss you around. \"Do it or you're not my friend\" is not how good friends talk. You can be friendly without doing everything they say.",
+      "remember": [
+        "Good friends take turns and share.",
+        "You don't have to do everything a friend says.",
+        "It's great to have lots of friends, not just one."
+      ],
+      "sayThis": [
+        "That's bossing. I'm not doing it.",
+        "You can still be my friend, but I'm not doing that.",
+        "I'm going to play with someone else."
+      ],
+      "magicWords": "Good friends don't boss.",
+      "tryIt": "Turn to Good Friend or Bossy Friend? at the back. Read each one out and decide. Which kind of friend are you?",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Who's really fun to be around? What happens when you don't want to do what they want?",
+        "tip": "Don't ban the friend. Help your child handle them."
+      }
+    },
+    {
+      "id": 2,
+      "part": 1,
+      "title": "When 'everyone' is allowed except you",
+      "panels": [
+        {
+          "caption": "Before class",
+          "scene": "school",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.3,
+              "face": "smirk",
+              "arm": "hold",
+              "item": "phone"
+            },
+            {
+              "who": "zara",
+              "x": 0.72,
+              "face": "sad",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Everyone has a phone except you!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara counts",
+          "scene": "school",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Hmm... who is 'everyone'? Kai and... that's it.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Zara answers",
+          "scene": "school",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "hips"
+            },
+            {
+              "who": "kai",
+              "x": 0.72,
+              "face": "neutral",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "My family's rules are different. That's OK.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Fair enough.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "It can feel like everyone is allowed to do something except you. But 'everyone' is usually just a few kids. Every family has its own rules, and rules change as you get older.",
+      "remember": [
+        "'Everyone' is almost never everyone.",
+        "Every family has different rules, and that's OK.",
+        "Your rules are about keeping you safe, not about not trusting you."
+      ],
+      "sayThis": [
+        "My mum (or dad) won't let me.",
+        "Not allowed yet.",
+        "I'll do something else."
+      ],
+      "magicWords": "Every family's different.",
+      "tryIt": "Play Count It: next time you say 'everyone', count the real names together. Then make a 'When I'm older' list of things you're looking forward to.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What's something 'everyone' is allowed to do except you?",
+        "tip": "Give your reason in one sentence, and say when you'll look at the rule again (e.g. next birthday)."
+      }
+    },
+    {
+      "id": 3,
+      "part": 1,
+      "title": "When friends dare you to do something silly",
+      "panels": [
+        {
+          "caption": "In the backyard",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.28,
+              "face": "laugh",
+              "arm": "point"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "worried",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I dare you to jump off the shed! Don't be a baby!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam asks the 3 questions",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Could someone get hurt, sad or in trouble?",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Sam says no",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "give",
+              "item": "ball"
+            },
+            {
+              "who": "theo",
+              "x": 0.72,
+              "face": "neutral",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Nah, that's dumb. Let's play ball.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "OK!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Sometimes friends dare you to do something risky or mean, like jumping off a roof, hiding someone's lunch or copying answers. Saying no can be the bravest thing of all.",
+      "remember": [
+        "Ask: could someone get hurt, sad or in trouble? If yes, it's a no.",
+        "'Don't be a baby' and 'just this once' are tricks to get you to do it.",
+        "A good friend doesn't make you prove anything."
+      ],
+      "sayThis": [
+        "Nah, that's dumb. Let's do something else.",
+        "You do it.",
+        "Not doing it."
+      ],
+      "magicWords": "Hurt, sad or trouble? Then it's a no.",
+      "tryIt": "Play Fun Dare or Dumb Dare? A grown-up calls out dares (do a chicken dance, jump off the roof, hide someone's lunch, do 10 star jumps). You sort them!",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What's the silliest dare you've heard at school?",
+        "tip": "If your child admits doing one, praise them for telling you before anything else."
+      }
+    },
+    {
+      "id": 4,
+      "part": 1,
+      "title": "When a friend takes something that isn't theirs",
+      "panels": [
+        {
+          "caption": "At the shop",
+          "scene": "shop",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.32,
+              "face": "smirk",
+              "arm": "give",
+              "item": "lolly"
+            },
+            {
+              "who": "zara",
+              "x": 0.72,
+              "face": "worried",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Quick, hold these! No one will see.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara stops and thinks",
+          "scene": "shop",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "hips"
+            }
+          ],
+          "speech": [
+            {
+              "text": "We didn't pay. That's stealing.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Zara says no",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "stop"
+            },
+            {
+              "who": "kai",
+              "x": 0.74,
+              "face": "sad",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I'm not holding that. Put it back.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "OK... fine.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Kai put lollies in his pocket without paying, then asked Zara to hold them. Zara knew it was stealing, even though it was small. She didn't have to be the police. She just didn't join in.",
+      "remember": [
+        "Taking something without paying or asking is stealing, even small things.",
+        "Don't take it, hold it, hide it or share it. Just walk away.",
+        "Telling a grown-up isn't dobbing. It stops your friend getting into bigger trouble."
+      ],
+      "sayThis": [
+        "Put it back.",
+        "I'm not holding that.",
+        "I don't want to get in trouble. I'm out."
+      ],
+      "magicWords": "Not mine? Not taking it.",
+      "tryIt": "Set up a pretend shop at home. A grown-up plays the friend who says 'Just hold this.' Practise saying no and walking away. And if you ever took something: \"I took this. I'm sorry.\"",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What would you do if a friend took something from a shop?",
+        "tip": "If your child took something, stay calm and go with them to return it and say sorry."
+      }
+    },
+    {
+      "id": 5,
+      "part": 1,
+      "title": "When you're left out (or not invited)",
+      "panels": [
+        {
+          "caption": "Party invites",
+          "scene": "school",
+          "people": [
+            {
+              "who": "kid",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "give",
+              "item": "invite"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Here's your invite to my party!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara wasn't invited",
+          "scene": "school",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.5,
+              "face": "sad",
+              "arm": "down",
+              "tears": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Everyone's going except me.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Zara tells her grown-up",
+          "scene": "home",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "sad",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I wasn't invited.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "That hurts. Let's invite a friend over!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Zara found out everyone in her group was invited to a party, except her. She felt really sad. Being left out hurts, and it happens to everyone sometimes, even grown-ups.",
+      "remember": [
+        "Being left out doesn't mean something is wrong with you.",
+        "Not everyone can invite everyone. Next time could be different.",
+        "You can ask to join in. If it's a no, find someone else."
+      ],
+      "sayThis": [
+        "Can I play?",
+        "OK, see ya. (then find someone else)",
+        "To a kid on their own: Want to play?"
+      ],
+      "magicWords": "Ask, then find someone else.",
+      "tryIt": "Make a list of 3 other kids, games or clubs you could go to at lunch. Then practise saying 'OK, see ya' and walking off calmly.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Who did you hang out with at lunch today?",
+        "tip": "Listen before fixing. Then help plan a catch-up with a different friend."
+      }
+    },
+    {
+      "id": 6,
+      "part": 1,
+      "title": "When someone teases you about how you look",
+      "panels": [
+        {
+          "caption": "Sam's new glasses",
+          "scene": "school",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "laugh",
+              "arm": "point"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "sad",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Ha! Four eyes!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam remembers the trick",
+          "scene": "school",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.5,
+              "face": "neutral",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Make it boring.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Sam shrugs it off",
+          "scene": "school",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "hips"
+            },
+            {
+              "who": "theo",
+              "x": 0.72,
+              "face": "surprised",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Yep, new glasses. So?",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "...Oh. OK.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Sam got new glasses and someone laughed. Teasers want a big reaction. When you give a boring answer, the teasing stops being fun for them.",
+      "remember": [
+        "Teasing says more about the teaser than about you.",
+        "A calm, boring answer works best.",
+        "If it keeps happening, tell a teacher and a grown-up at home."
+      ],
+      "sayThis": [
+        "Yep, new glasses.",
+        "So? (with a shrug)",
+        "I like them."
+      ],
+      "magicWords": "Shrug it off: \"So?\"",
+      "tryIt": "Play The Most Boring Answer. A grown-up teases you about something silly ('Your socks are blue!'). Give the most boring answer you can. Most boring wins!",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "If someone said something about how you look, what do you think they'd say?",
+        "tip": "If it keeps happening, it's bullying. Talk to the teacher."
+      }
+    },
+    {
+      "id": 7,
+      "part": 1,
+      "title": "When someone is mean to you or a friend",
+      "panels": [
+        {
+          "caption": "In the classroom",
+          "scene": "school",
+          "people": [
+            {
+              "who": "kid2",
+              "x": 0.3,
+              "face": "cross",
+              "arm": "point"
+            },
+            {
+              "who": "ruby",
+              "x": 0.72,
+              "face": "sad",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "You can't sit here, loser.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby uses her strong voice",
+          "scene": "school",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.5,
+              "face": "proud",
+              "arm": "stop"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Stop. I don't like that.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Then Ruby tells",
+          "scene": "school",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Can I talk to you about something?",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Of course.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Sometimes kids say mean things, in person or in a group chat. If it keeps happening to the same person, that's bullying, and a grown-up needs to know.",
+      "remember": [
+        "What someone says about you isn't true just because they said it.",
+        "Use a strong, calm voice. Then walk away.",
+        "Telling isn't dobbing. Dobbing gets people in trouble. Telling keeps people safe."
+      ],
+      "sayThis": [
+        "Stop. I don't like that.",
+        "Telling isn't dobbing.",
+        "To a friend: Come hang out with us."
+      ],
+      "magicWords": "Stop, walk, talk.",
+      "tryIt": "Practise three voices: a mouse voice, a monster voice and a strong voice. Which works best? Then practise telling a grown-up what happened.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Is anyone being mean to anyone at school at the moment?",
+        "tip": "If it's your child: \"I'm so glad you told me. It's not your fault.\" Then talk to the teacher together."
+      }
+    },
+    {
+      "id": 8,
+      "part": 1,
+      "title": "When friends laugh at someone for stuttering or making a mistake",
+      "panels": [
+        {
+          "caption": "Reading out loud",
+          "scene": "school",
+          "people": [
+            {
+              "who": "kid",
+              "x": 0.3,
+              "face": "worried",
+              "arm": "hold",
+              "item": "book"
+            },
+            {
+              "who": "kid2",
+              "x": 0.72,
+              "face": "laugh",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I w-w-went to the...",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Ha ha ha!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Theo doesn't join in",
+          "scene": "school",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "stop"
+            },
+            {
+              "who": "kid2",
+              "x": 0.72,
+              "face": "surprised",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Not funny.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "At lunch",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "wave"
+            },
+            {
+              "who": "kid",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Want to sit with us?",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Yes please!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Some people stutter. Their words get stuck or repeat. It's just how their brain and mouth work, and it's not about being nervous or less smart. Everyone makes mistakes too. When people laugh, it feels awful.",
+      "remember": [
+        "Laughing along is joining in, even if you didn't start it.",
+        "When someone stutters, wait. Don't finish their words for them.",
+        "Upstanders don't laugh, say something short, and are kind after."
+      ],
+      "sayThis": [
+        "Not funny.",
+        "Leave them alone.",
+        "Afterwards: Want to sit with us?"
+      ],
+      "magicWords": "Don't laugh. Back them up.",
+      "tryIt": "Ask your grown-up about a time they made a mistake in front of people. How did it feel? This week, try one upstander move and report back.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Has anyone in your class been laughed at for getting something wrong?",
+        "tip": "If your child laughed, thank them for being honest and ask how they could make it right."
+      }
+    },
+    {
+      "id": 9,
+      "part": 1,
+      "title": "When play-fighting goes too far",
+      "panels": [
+        {
+          "caption": "Wrestling on the grass",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.35,
+              "face": "laugh",
+              "arm": "up"
+            },
+            {
+              "who": "sam",
+              "x": 0.65,
+              "face": "laugh",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Gotcha!",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Ha ha!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam has had enough",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "worried",
+              "arm": "stop"
+            },
+            {
+              "who": "kai",
+              "x": 0.72,
+              "face": "surprised",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Stop! I'm out.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Kai stops straight away",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "wave"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "OK! You OK?",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Yep, thanks.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Wrestling, chasey and tickling are fun when everyone's having fun. But when someone says stop, the game stops. Straight away. Every time.",
+      "remember": [
+        "Stop means stop. (Tickling too!)",
+        "No hitting faces, heads or private parts.",
+        "If someone's hurt or crying, the game's over. Check they're OK."
+      ],
+      "sayThis": [
+        "Stop means stop. (hand up)",
+        "You OK?",
+        "I'm out."
+      ],
+      "magicWords": "Stop means stop.",
+      "tryIt": "Have a pillow fight. Anyone can call 'Stop!' and everyone has to freeze. Take turns being the caller.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What happens at lunch when someone wants to stop the game?",
+        "tip": "Use the same freeze rule with brothers and sisters."
+      }
+    },
+    {
+      "id": 10,
+      "part": 2,
+      "title": "When you lose",
+      "panels": [
+        {
+          "caption": "The final siren",
+          "scene": "court",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "sad",
+              "arm": "hold",
+              "item": "ball"
+            },
+            {
+              "who": "kid2",
+              "x": 0.7,
+              "face": "happy",
+              "arm": "up",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "We won!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby feels rotten",
+          "scene": "court",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.5,
+              "face": "cross",
+              "arm": "hips"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Grrr. I want to stomp off!",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby chooses",
+          "scene": "court",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "give"
+            },
+            {
+              "who": "kid2",
+              "x": 0.7,
+              "face": "happy",
+              "arm": "give",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Good game!",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Good game!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Losing feels rotten. Everyone loses sometimes, even the best players in the world. What you do next is what counts.",
+      "remember": [
+        "Feeling disappointed is normal.",
+        "A good sport says 'good game', win or lose.",
+        "Winning nicely matters too. No gloating!"
+      ],
+      "sayThis": [
+        "Good game. (fist bump)",
+        "To yourself: Next time.",
+        "When you win: Good game!"
+      ],
+      "magicWords": "Win or lose, \"good game\".",
+      "tryIt": "Play a quick game with your grown-up. Whoever loses has to say 'Good game!' in their best sports-star voice.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Who's the best sport on your team?",
+        "tip": "Lose on purpose and model it out loud: \"I'm disappointed... good game!\""
+      }
+    },
+    {
+      "id": 11,
+      "part": 2,
+      "title": "When you're not the best at something",
+      "panels": [
+        {
+          "caption": "Basketball training",
+          "scene": "court",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "sad",
+              "arm": "down"
+            },
+            {
+              "who": "kid",
+              "x": 0.7,
+              "face": "happy",
+              "arm": "up",
+              "item": "ball",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I'm the worst on the team.",
+              "speaker": 0,
+              "kind": "think"
+            },
+            {
+              "text": "Swish!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara talks to her grown-up",
+          "scene": "home",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "sad",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "What can you do now that you couldn't before?",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "A week later",
+          "scene": "court",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.5,
+              "face": "proud",
+              "arm": "up",
+              "item": "ball"
+            }
+          ],
+          "speech": [
+            {
+              "text": "4 out of 10! A new personal best!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Zara isn't the best player on her basketball team. Everyone's good at different things, and everyone grows at different speeds. The only person you're racing is you.",
+      "remember": [
+        "Getting better matters more than being the best.",
+        "Compare yourself with YOU last month, not with other kids.",
+        "'I can't do it' really means 'I can't do it YET.'"
+      ],
+      "sayThis": [
+        "Not yet.",
+        "I'm getting better.",
+        "What can I work on?"
+      ],
+      "magicWords": "Not yet, but getting better.",
+      "tryIt": "Use My Personal Bests at the back. Pick one skill, like free throws out of 10 or times tables in a minute. Record your score each week and circle every new best!",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What's one thing you want to get better at?",
+        "tip": "Celebrate personal bests, not where they rank."
+      }
+    },
+    {
+      "id": 12,
+      "part": 2,
+      "title": "When you're the one being mean (even to your brother or sister)",
+      "panels": [
+        {
+          "caption": "Who gets the controller?",
+          "scene": "home",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "cross",
+              "arm": "give",
+              "item": "controller"
+            },
+            {
+              "who": "kid",
+              "x": 0.72,
+              "face": "sad",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Hey! That's mine!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Theo feels the volcano",
+          "scene": "home",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.5,
+              "face": "cross",
+              "arm": "hips"
+            }
+          ],
+          "speech": [
+            {
+              "text": "I'm about to blow... I need a break.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Later, Theo makes it right",
+          "scene": "home",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "give",
+              "item": "controller"
+            },
+            {
+              "who": "kid",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I'm sorry I grabbed it. Next time I'll ask.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Thanks.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Everyone is mean sometimes, especially to brothers and sisters. It doesn't make you a bad kid. What matters is fixing it.",
+      "remember": [
+        "Being cross is OK. Hurting isn't.",
+        "When you're about to blow, walk away.",
+        "A real sorry has 3 parts: what you did, sorry, and how you'll fix it."
+      ],
+      "sayThis": [
+        "I need a break.",
+        "I'm sorry I ___. Next time I'll ___."
+      ],
+      "magicWords": "Walk away, then make it right.",
+      "tryIt": "Practise a 3-part sorry with a pretend problem: \"I'm sorry I grabbed the remote. Next time I'll ask.\"",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What does your brother or sister do that drives you bonkers?",
+        "tip": "Don't worry about who started it. Focus on what to do next time."
+      }
+    },
+    {
+      "id": 13,
+      "part": 2,
+      "title": "When someone says \"boys don't\" or \"girls can't\"",
+      "panels": [
+        {
+          "caption": "At the court",
+          "scene": "court",
+          "people": [
+            {
+              "who": "kid2",
+              "x": 0.3,
+              "face": "smirk",
+              "arm": "hips"
+            },
+            {
+              "who": "ruby",
+              "x": 0.72,
+              "face": "cross",
+              "arm": "hold",
+              "item": "ball",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Girls can't play basketball!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam is upset",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "older",
+              "x": 0.3,
+              "face": "smirk",
+              "arm": "point"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "sad",
+              "arm": "down",
+              "tears": true,
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Boys don't cry!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby and Sam answer",
+          "scene": "court",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "proud",
+              "arm": "up",
+              "item": "ball"
+            },
+            {
+              "who": "sam",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Anyone can play!",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Everyone cries sometimes.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Some people say there are boy things and girl things. But feelings, sports, colours and toys are for everyone. You can like what you like, and you can feel what you feel.",
+      "remember": [
+        "Everyone cries sometimes. It means something matters.",
+        "There are no boy feelings or girl feelings. Just feelings.",
+        "Strong means kind, brave and honest."
+      ],
+      "sayThis": [
+        "Anyone can play.",
+        "I like what I like.",
+        "Everyone cries sometimes."
+      ],
+      "magicWords": "Be yourself. Strong and kind.",
+      "tryIt": "Watch a clip of athletes crying after a big game. Are they tough? Are they crying? Can you be both?",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Have you ever heard someone say 'boys don't' or 'girls can't'?",
+        "tip": "Name real people in your child's life who prove these wrong."
+      }
+    },
+    {
+      "id": 14,
+      "part": 2,
+      "title": "When big feelings take over",
+      "panels": [
+        {
+          "caption": "Kai's volcano",
+          "scene": "home",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.5,
+              "face": "cross",
+              "arm": "up"
+            }
+          ],
+          "speech": [
+            {
+              "text": "ARGH! It's not fair!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Kai breathes",
+          "scene": "home",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.5,
+              "face": "neutral",
+              "arm": "hold"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Smell the flower... blow out the candle.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Kai names it",
+          "scene": "home",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I feel angry. I need a break.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Good plan.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Sometimes feelings get really big, like a volcano. Angry, worried, sad. All feelings are OK. It's what we do with them that matters.",
+      "remember": [
+        "Name it: 'I feel angry' makes the feeling smaller.",
+        "Your body can help: slow breaths, water, a run, a big squeeze.",
+        "Worries are your brain trying to protect you. You can talk back to them."
+      ],
+      "sayThis": [
+        "I feel ___.",
+        "I need a break.",
+        "Smell the flower, blow out the candle."
+      ],
+      "magicWords": "Name it, breathe it, talk it.",
+      "tryIt": "Fill in My Calm-Down Plan at the back. Practise flower-and-candle breathing at bedtime, so it's ready when you need it.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "If your feelings were weather, what would today be?",
+        "tip": "Practise calming tools when your child is calm, not in the middle of a meltdown."
+      }
+    },
+    {
+      "id": 15,
+      "part": 2,
+      "title": "When you make a mistake and want to hide it",
+      "panels": [
+        {
+          "caption": "Crash! The mug breaks",
+          "scene": "home",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.5,
+              "face": "surprised",
+              "arm": "up"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Oh no!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby is tempted",
+          "scene": "home",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Maybe I'll just hide it...",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby owns up",
+          "scene": "home",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "worried",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "It was me. I'm sorry.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Thanks for telling me. Let's fix it.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Everyone makes mistakes, even grown-ups. Hiding a mistake usually makes it worse. Telling the truth, even late, always goes better.",
+      "remember": [
+        "Most things can be fixed.",
+        "Telling the truth is brave.",
+        "Your grown-ups will always love you, even when they're disappointed."
+      ],
+      "sayThis": [
+        "I need to tell you something.",
+        "It was me. I'm sorry.",
+        "How can I fix it?"
+      ],
+      "magicWords": "Tell it, fix it.",
+      "tryIt": "Ask your grown-up about the biggest mistake they made when they were your age. Did they own up?",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What would make it easier to tell me when something goes wrong?",
+        "tip": "When they own up, stay calm and thank them. That reaction is the lesson."
+      }
+    },
+    {
+      "id": 16,
+      "part": 2,
+      "title": "When it's time to stop the game",
+      "panels": [
+        {
+          "caption": "Game time",
+          "scene": "screen",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "hold",
+              "item": "controller"
+            },
+            {
+              "who": "adult2",
+              "x": 0.75,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "10 minutes left!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Sam gets ready",
+          "scene": "screen",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.4,
+              "face": "neutral",
+              "arm": "hold",
+              "item": "controller"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Finish my race... then save.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Sam switches",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "up",
+              "item": "ball"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Saved! Switching!",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Legend!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Games and videos are made to be hard to stop. There's always one more level! A warning helps your brain get ready to switch.",
+      "remember": [
+        "It's not your fault it's hard to stop.",
+        "Screens before bed make it harder to sleep.",
+        "'Free Robux' and 'free skins' are tricks."
+      ],
+      "sayThis": [
+        "OK, finishing my level.",
+        "Save and switch."
+      ],
+      "magicWords": "Warning, save, switch.",
+      "tryIt": "For one week: 10-minute warning, then 'save and switch' with no fuss. Give yourself a tick for every good switch.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Why do you think it's so hard to stop playing?",
+        "tip": "Agree the rules ahead of time (see Family Tech Rules) so you're not arguing in the moment."
+      }
+    },
+    {
+      "id": 17,
+      "part": 3,
+      "title": "You're the boss of your body",
+      "panels": [
+        {
+          "caption": "A family visit",
+          "scene": "home",
+          "people": [
+            {
+              "who": "adult2",
+              "x": 0.32,
+              "face": "happy",
+              "arm": "up"
+            },
+            {
+              "who": "mia",
+              "x": 0.74,
+              "face": "worried",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Come and give me a big hug!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Mia checks how she feels",
+          "scene": "home",
+          "people": [
+            {
+              "who": "mia",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "I don't feel like a hug today.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Mia chooses",
+          "scene": "home",
+          "people": [
+            {
+              "who": "mia",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "wave"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "wave",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Can we high-five instead?",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Sure! High-five!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Your body belongs to you. You get to choose about hugs and kisses, even with family. Your private parts are the parts your swimmers cover.",
+      "remember": [
+        "You're the boss of your body.",
+        "If anything feels wrong or uncomfortable, you can say no, even to a grown-up.",
+        "You will never be in trouble for telling."
+      ],
+      "sayThis": [
+        "NO! (loud voice, hand up)",
+        "GO: get away.",
+        "TELL: tell a grown-up on your Safety Hand."
+      ],
+      "magicWords": "No, go, tell.",
+      "tryIt": "Practise a big, loud \"NO!\" with your hand up like a stop sign. Then fill in My Safety Hand with 5 grown-ups you trust.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Who's the boss of your body?",
+        "tip": "Use the correct names for body parts, and back your child up when they choose a high-five over a hug."
+      }
+    },
+    {
+      "id": 18,
+      "part": 3,
+      "title": "Surprises are fun. Secrets get told.",
+      "panels": [
+        {
+          "caption": "A surprise",
+          "scene": "home",
+          "people": [
+            {
+              "who": "sam",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "hips"
+            },
+            {
+              "who": "zara",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Shh! It's a surprise party for Mum!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "A secret",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "adult",
+              "x": 0.32,
+              "face": "smirk",
+              "arm": "give",
+              "item": "lolly"
+            },
+            {
+              "who": "kai",
+              "x": 0.74,
+              "face": "worried",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Don't tell your mum I gave you this.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Kai tells",
+          "scene": "home",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Someone told me not to tell you something.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Thank you for telling me.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "A surprise is fun, and everyone finds out soon, like a birthday present. A secret is something someone wants you to hide from your parents. Safe grown-ups don't ask kids to keep secrets.",
+      "remember": [
+        "Surprises are fine.",
+        "If anyone says 'Don't tell your mum or dad', that's your signal to tell.",
+        "You won't be in trouble for telling."
+      ],
+      "sayThis": [
+        "We don't keep secrets in our family.",
+        "I'm telling Mum and Dad."
+      ],
+      "magicWords": "Surprises are fun. Secrets get told.",
+      "tryIt": "Play Surprise or Tell? at the back. A grown-up reads each one and you shout 'Surprise!' or 'Tell!'",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "What's the difference between a surprise and a secret?",
+        "tip": "If your child shares a real secret, stay calm, thank them, and get advice (see Who Can Help)."
+      }
+    },
+    {
+      "id": 19,
+      "part": 3,
+      "title": "Always check first",
+      "panels": [
+        {
+          "caption": "At the park",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "adult2",
+              "x": 0.3,
+              "face": "happy",
+              "arm": "wave"
+            },
+            {
+              "who": "ruby",
+              "x": 0.72,
+              "face": "surprised",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Want to come and see my new puppy?",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby remembers the rule",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.5,
+              "face": "proud",
+              "arm": "stop"
+            }
+          ],
+          "speech": [
+            {
+              "text": "I have to ask my mum first.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Ruby finds her mum",
+          "scene": "outside",
+          "people": [
+            {
+              "who": "ruby",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Someone asked me to see a puppy.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "You checked first. Great job!",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Most grown-ups are kind. But grown-ups who need help ask other grown-ups, not kids. Before you go anywhere with anyone, check with your grown-up first, even if you know the person.",
+      "remember": [
+        "Always check first, every time.",
+        "Anyone picking you up who isn't on the plan must know the family password.",
+        "Need help? Ask a parent with kids or someone working in a shop."
+      ],
+      "sayThis": [
+        "I have to ask my mum or dad first.",
+        "What's our password?"
+      ],
+      "magicWords": "Check first, every time.",
+      "tryIt": "Choose a silly family password together (like 'purple kangaroo'). Write it on Things I Know By Heart. Only your family and pick-up grown-ups know it.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "If you needed help and couldn't find me, who would you ask?",
+        "tip": "Role-play the 'puppy' trick and praise them for checking first."
+      }
+    },
+    {
+      "id": 20,
+      "part": 3,
+      "title": "If you get lost",
+      "panels": [
+        {
+          "caption": "Theo can't see Dad",
+          "scene": "shop",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.5,
+              "face": "worried",
+              "arm": "down"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Where's Dad? Stop. Stay.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Theo asks a shop worker",
+          "scene": "shop",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "I'm lost. My dad's number is...",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Let's call him.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "On a bushwalk: hug a tree",
+          "scene": "bush",
+          "people": [
+            {
+              "who": "theo",
+              "x": 0.5,
+              "face": "neutral",
+              "arm": "hold"
+            }
+          ],
+          "speech": [
+            {
+              "text": "Stay put. They'll find me.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        }
+      ],
+      "happening": "Getting lost is scary, but if you know the plan you'll know what to do. The most important thing: stop and stay. Your grown-up will come to you.",
+      "remember": [
+        "Shops: stop, ask a parent with kids or a shop worker, say your grown-up's phone number.",
+        "Bush: stop, stay put and hug a tree.",
+        "Beach: swim between the red and yellow flags. In trouble? Float and raise one arm."
+      ],
+      "sayThis": [
+        "I'm lost. My mum's number is ___.",
+        "Hug a tree.",
+        "Flags, float, wave."
+      ],
+      "magicWords": "Stop and stay. We'll find you.",
+      "tryIt": "Turn your grown-up's phone number into a chant or song until you know it by heart. Write it on Things I Know By Heart.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "If we got split up at the campground, what would you do?",
+        "tip": "At the beach, walk to the lifeguard tower and say hello."
+      }
+    },
+    {
+      "id": 21,
+      "part": 3,
+      "title": "When something online feels weird",
+      "panels": [
+        {
+          "caption": "Kai is playing online",
+          "scene": "screen",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.35,
+              "face": "happy",
+              "arm": "hold",
+              "item": "controller"
+            }
+          ],
+          "speech": [
+            {
+              "text": "NEW MESSAGE: What school do you go to?",
+              "speaker": null,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Kai gets an uh-oh feeling",
+          "scene": "screen",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.4,
+              "face": "worried",
+              "arm": "hold",
+              "item": "controller"
+            }
+          ],
+          "speech": [
+            {
+              "text": "That feels weird. I don't share that.",
+              "speaker": 0,
+              "kind": "think"
+            }
+          ]
+        },
+        {
+          "caption": "Kai tells",
+          "scene": "home",
+          "people": [
+            {
+              "who": "kai",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Someone in my game asked where I go to school.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Thanks for telling me. Let's block them.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Most people online are fine. But people aren't always who they say they are. If something gives you an 'uh-oh' feeling, that's your body telling you something's not right.",
+      "remember": [
+        "Never share your real name, school, address or photos.",
+        "'Free Robux' or 'free skins' are tricks.",
+        "Uh-oh feeling? Turn it over and tell a grown-up. You won't be in trouble."
+      ],
+      "sayThis": [
+        "I don't share that.",
+        "Block, report, tell."
+      ],
+      "magicWords": "Turn it over, tell a grown-up.",
+      "tryIt": "Show your grown-up your favourite game. Teach them how to block and report someone.",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Who do you play with online?",
+        "tip": "Keep chat off or friends-only, and devices in shared rooms."
+      }
+    },
+    {
+      "id": 22,
+      "part": 3,
+      "title": "When you see or hear something rude",
+      "panels": [
+        {
+          "caption": "An older kid has a phone",
+          "scene": "school",
+          "people": [
+            {
+              "who": "older",
+              "x": 0.3,
+              "face": "smirk",
+              "arm": "give",
+              "item": "phone"
+            },
+            {
+              "who": "zara",
+              "x": 0.74,
+              "face": "surprised",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Hey, look at this!",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara looks away",
+          "scene": "school",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.5,
+              "face": "proud",
+              "arm": "stop"
+            }
+          ],
+          "speech": [
+            {
+              "text": "I don't want to see that.",
+              "speaker": 0,
+              "kind": "say"
+            }
+          ]
+        },
+        {
+          "caption": "Zara tells",
+          "scene": "home",
+          "people": [
+            {
+              "who": "zara",
+              "x": 0.3,
+              "face": "neutral",
+              "arm": "down"
+            },
+            {
+              "who": "adult2",
+              "x": 0.72,
+              "face": "happy",
+              "arm": "down",
+              "facingLeft": true
+            }
+          ],
+          "speech": [
+            {
+              "text": "Someone showed me something rude.",
+              "speaker": 0,
+              "kind": "say"
+            },
+            {
+              "text": "Thank you for telling me. You're not in trouble.",
+              "speaker": 1,
+              "kind": "say"
+            }
+          ]
+        }
+      ],
+      "happening": "Some pictures and videos are only for grown-ups. They can show people with no clothes on. Kids' brains aren't ready for them, so they can feel yucky. Seeing something by accident is never your fault.",
+      "remember": [
+        "Look away, close it or turn it over. Then tell.",
+        "Nobody should ever ask you to take or send photos of private parts. Always tell.",
+        "Heard a rude word? Ask a grown-up what it means, instead of searching it."
+      ],
+      "sayThis": [
+        "I don't want to see that.",
+        "What does ___ mean?",
+        "Look away, close it, tell."
+      ],
+      "magicWords": "Look away, walk away, tell.",
+      "tryIt": "With your grown-up, check that safe search and kids' modes are turned on. They're on your team!",
+      "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+      "grownUp": {
+        "ask": "Have you heard a word at school you weren't sure was rude?",
+        "tip": "Stay calm and answer simply. If anyone asked your child for photos, or an adult was involved, get advice (see Who Can Help)."
+      }
+    }
+  ],
+  "games": {
+    "surpriseOrTell": [
+      {
+        "statement": "Grandma is planning a surprise party for Dad.",
+        "answer": "Surprise"
+      },
+      {
+        "statement": "A grown-up says, \"Don't tell your mum I gave you lollies.\"",
+        "answer": "Tell"
+      },
+      {
+        "statement": "You and Dad are making Mum a card for her birthday.",
+        "answer": "Surprise"
+      },
+      {
+        "statement": "A friend says, \"Don't tell anyone I took it from the shop.\"",
+        "answer": "Tell"
+      },
+      {
+        "statement": "Someone in a game says, \"Let's keep our chats secret.\"",
+        "answer": "Tell"
+      },
+      {
+        "statement": "Your brother bought you a birthday present and won't say what it is.",
+        "answer": "Surprise"
+      },
+      {
+        "statement": "Someone makes you feel uncomfortable and says, \"This is our secret.\"",
+        "answer": "Tell"
+      },
+      {
+        "statement": "A friend says they're being hurt and asks you not to tell.",
+        "answer": "Tell"
+      },
+      {
+        "statement": "You're hiding chocolate eggs for an Easter egg hunt.",
+        "answer": "Surprise"
+      },
+      {
+        "statement": "A grown-up gives you game money and says, \"Your parents don't need to know.\"",
+        "answer": "Tell"
+      },
+      {
+        "statement": "An older kid shows you a rude video and says, \"Don't tell or you'll get in trouble.\"",
+        "answer": "Tell"
+      }
+    ],
+    "whatIfCards": [
+      "A friend says, \"You're not my friend unless you do it.\"",
+      "A friend says, \"Everyone's allowed to play this game except you.\"",
+      "Your friends dare you to jump off the shed roof.",
+      "Your friend pockets lollies at the shop and says, \"Hold this.\"",
+      "Some kids say, \"You can't play with us.\"",
+      "You get picked last for teams.",
+      "Someone laughs at your new glasses.",
+      "Someone calls you a mean name.",
+      "The class laughs when a kid stutters reading aloud.",
+      "Your friend won't stop tickling after you say stop.",
+      "You lose the final of your game.",
+      "You feel like the worst player on the team.",
+      "Your brother or sister grabs your stuff.",
+      "You feel so angry you want to throw something.",
+      "Someone says, \"Girls can't play\" or \"Boys don't cry.\"",
+      "You broke something and nobody saw.",
+      "It's 10 minutes until screen time ends.",
+      "Someone wants a hug and you don't feel like one.",
+      "A grown-up says, \"Don't tell your mum or dad.\"",
+      "A neighbour asks you to come and see their new puppy.",
+      "You can't find your parent at the shops.",
+      "You lose sight of the tent on a bush walk.",
+      "Someone in a game asks what school you go to.",
+      "A video suddenly shows something rude.",
+      "An older kid says, \"Look at this,\" and it's a rude picture on their phone.",
+      "A kid at school says a rude word you don't understand.",
+      "Someone in a group chat posts a mean photo of a classmate."
+    ],
+    "goodOrBossyFriend": {
+      "good": [
+        "Takes turns and shares",
+        "Lets you choose the game sometimes",
+        "Sticks up for you",
+        "Says sorry when they get it wrong",
+        "Is happy when you do well",
+        "Listens when you say stop",
+        "Lets you hang out with other friends too"
+      ],
+      "bossy": [
+        "Always has to be in charge",
+        "Says \"You're not my friend unless...\"",
+        "Gets you in trouble and leaves you to cop it",
+        "Laughs at you in front of others",
+        "Gets cross when you play with someone else",
+        "Dares you to do dumb stuff, or to take things",
+        "Tells you to keep secrets from your parents"
+      ]
+    }
+  },
+  "activities": {
+    "knowByHeart": [
+      "My full name:",
+      "Parent 1 full name and mobile:",
+      "Parent 2 full name and mobile:",
+      "My address (street and suburb):",
+      "Our family password (for pick-ups):",
+      "If I get lost: Stop and stay. Ask a parent with kids or a shop worker.",
+      "In an emergency I call: 000"
+    ],
+    "techRules": [
+      "Devices are used in shared rooms, not bedrooms.",
+      "Screens off an hour before bed.",
+      "Ask before downloading any new game or app.",
+      "Game chat is off, or only with friends we know in real life.",
+      "I never share my real name, school, address or photos online.",
+      "Free Robux or free skins? That's a trick.",
+      "Buying anything in a game needs a yes from a parent.",
+      "Uh-oh feeling? Turn it over, tell a grown-up.",
+      "Safe search and kids' modes stay on (e.g. YouTube Kids).",
+      "Group chats: I don't post anything I wouldn't say to someone's face.",
+      "10-minute warning, then save and switch.",
+      "School days: ______ minutes.   Weekends: ______ minutes."
+    ],
+    "calmPlan": [
+      {
+        "level": 5,
+        "label": "Volcano",
+        "action": "I might hurt someone or something. I need a grown-up now."
+      },
+      {
+        "level": 4,
+        "label": "Really cross or scared",
+        "action": "I need a break in my calm spot."
+      },
+      {
+        "level": 3,
+        "label": "Grumpy or worried",
+        "action": "I can breathe and tell someone."
+      },
+      {
+        "level": 2,
+        "label": "A bit bothered",
+        "action": "I can name it and keep going."
+      },
+      {
+        "level": 1,
+        "label": "Calm",
+        "action": "I feel good and ready to play."
+      }
+    ],
+    "calmPrompts": [
+      "When I'm getting cross, my body feels like:",
+      "Three things that help me calm down:",
+      "My calm spot at home is:",
+      "A grown-up I can go to at school:"
+    ]
+  }
+}
