@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An open book with a speech bubble above it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFBF2" android:pathData="M30,52 L54,58 L54,82 L30,76 Z" />
+    <path android:fillColor="#FFE08A" android:pathData="M78,52 L54,58 L54,82 L78,76 Z" />
+    <path android:strokeColor="#2B2B2B" android:strokeWidth="2" android:fillColor="#00000000"
+        android:pathData="M30,52 L54,58 L78,52 L78,76 L54,82 L30,76 Z M54,58 L54,82" />
+    <path android:fillColor="#FFFFFF" android:strokeColor="#2B2B2B" android:strokeWidth="2"
+        android:pathData="M40,28 h28 a6,6 0 0 1 6,6 v8 a6,6 0 0 1 -6,6 h-12 l-6,6 v-6 h-10 a6,6 0 0 1 -6,-6 v-8 a6,6 0 0 1 6,-6 z" />
+    <path android:fillColor="#E5533D" android:pathData="M47,38 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0 M54,38 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0 M61,38 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0" />
+</vector>

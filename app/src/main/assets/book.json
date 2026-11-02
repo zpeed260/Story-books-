@@ -1,0 +1,429 @@
+{
+  "cover": {
+    "title": "Before It Happens",
+    "subtitle": "Alex's journal of tricky stuff",
+    "tagline": "(and what to actually say when it happens)",
+    "private": "PRIVATE! (except for my grown-up)",
+    "features": "32 true-to-life situations • comics • words that actually work • for ages 8 to 11"
+  },
+  "intro": {
+    "title": "Hi. I'm Alex.",
+    "paragraphs": [
+      "This is my journal. I'm in Year 5. I write down the tricky stuff that happens at school, at sport, in group chats and at home, and what I figured out about it. Some of it I got right. Some of it I got wrong first. Mum says that's how everyone learns.",
+      "I'm letting you read it, because I reckon some of this stuff will happen to you too. Read it with your grown-up, one entry at a time. Then keep it somewhere you can find it."
+    ]
+  },
+  "belongsTo": {
+    "nameLabel": "This copy belongs to:",
+    "buddyLabel": "My reading buddy (a grown-up I trust):",
+    "text": "Read it with your grown-up, one entry at a time. Then keep it somewhere you can find it.",
+    "tellExplainer": "You can always tell your grown-up anything."
+  },
+  "crewIntro": "These are my friends. None of us are perfect. That's kind of the point.",
+  "crewOutro": "Plus: older kids, little brothers and sisters, coaches, teachers, my mum and dad, and a few randoms.",
+  "crew": [
+    {
+      "who": "alex",
+      "text": "Me. Year 5. Basketball, drawing comics, and a bit of a worrier."
+    },
+    {
+      "who": "zara",
+      "text": "Best on our basketball team. Says what she thinks."
+    },
+    {
+      "who": "sam",
+      "text": "Funniest person I know. Just got new glasses."
+    },
+    {
+      "who": "kai",
+      "text": "My mate since prep. Gamer. Sometimes does dumb stuff."
+    },
+    {
+      "who": "ruby",
+      "text": "Fast. Honest. Freckles. HATES losing."
+    },
+    {
+      "who": "theo",
+      "text": "Loves Lego and hoops. Sometimes a bit bossy."
+    },
+    {
+      "who": "mia",
+      "text": "Animal-obsessed. Loves swimming. Big ideas (some risky)."
+    }
+  ],
+  "usefulThing": {
+    "title": "The most useful thing I learned",
+    "intro": "When something bad is happening, you don't have to make a big scene. Making a scene in front of everyone can make things worse for you. Here's what works better:",
+    "steps": [
+      {
+        "title": "1. Exit now",
+        "text": "Say something low-key and get out of there.",
+        "lines": [
+          "I'm not into that. I'm going over here.",
+          "Nah, I'm good.",
+          "Not my thing.",
+          "I've gotta go."
+        ]
+      },
+      {
+        "title": "2. Tell quietly later",
+        "text": "When no one's around, tell a grown-up you trust.",
+        "lines": [
+          "at home that night",
+          "after class, when the room is empty",
+          "write your teacher a note",
+          "ask your grown-up to email the school",
+          "ask them not to say who told"
+        ]
+      }
+    ],
+    "alwaysTitle": "Some things you ALWAYS tell, straight away:",
+    "always": [
+      "Someone is hurt, or could get badly hurt.",
+      "Someone is hurting you, or a friend says someone is hurting them.",
+      "A grown-up asks you to keep a secret from your parents.",
+      "Someone asks for photos of private parts, or shows you rude stuff.",
+      "A friend says they don't want to be alive."
+    ],
+    "alwaysOutro": "Even if you promised. Even if they said not to. That's not dobbing. That's how people get help."
+  },
+  "howToRead": "How to read each entry: read my journal bit, look at the comic, then check 'What I figured out', 'What I can say right now', and 'Later'. Learn the Magic Words. Do the Try it! with your grown-up. Grown-ups: your bit is the taped note at the bottom.",
+  "alwaysTell": {
+    "title": "Remember: you can ALWAYS tell your grown-up anything.",
+    "text": "Even if you promised. Even if they said not to. That's not dobbing. That's how people get help."
+  },
+  "myTurnPrompt": "Has this happened to you or someone you know? What would you say or do?",
+  "grownUpsReading": {
+    "title": "For grown-ups",
+    "points": [
+      "One entry at a time, five to ten minutes. Let older kids read it aloud to you.",
+      "Side by side works best: the couch, bedtime, the car.",
+      "The lines are designed to protect your child. Kids who loudly confront or threaten to tell in front of peers can become targets. The book teaches a low-key exit in the moment, then a quiet tell to a trusted adult later. For safety issues, telling is always non-negotiable.",
+      "When your child tells you something, your reaction decides whether they tell you the next thing. Start with \"I'm really glad you told me.\"",
+      "Protect the teller. When you raise something with the school, ask them to act without identifying your child where possible.",
+      "Practise out loud. Saying the lines in a role-play is what makes them come out in real life."
+    ],
+    "seriousTitle": "If your child tells you something serious:",
+    "serious": "stay calm, believe them, don't question them in detail, and don't promise to keep it secret. Make sure they're safe, then get advice: 000 if anyone is in danger now, the Child Protection Crisis Line (13 12 78) or Kids Helpline (1800 55 1800)."
+  },
+  "activityIntros": {
+    "magicWords": {
+      "title": "My Magic Words",
+      "text": "One for every entry. Stick it on the fridge. Can you say them all from memory?"
+    },
+    "keepOrTell": {
+      "title": "Keep It or Tell It?",
+      "text": "Some secrets are fine to keep. Some need a grown-up. Your grown-up reads each one; you decide."
+    },
+    "goodOrBossy": {
+      "title": "Good Friend or Bossy Friend?",
+      "text": "Read each one out. Good friend or bossy friend? Cover the headings to make it a quiz.",
+      "talk": "Talk about it: What kind of friend do you want to be?"
+    },
+    "exitLines": {
+      "title": "My Exit Lines",
+      "text": "The best exit line is one that sounds like YOU. Pick your favourites or write your own. Practise them out loud.",
+      "extra": "My own exit lines:",
+      "grownUpSignature": "Grown-ups I can tell quietly later:"
+    },
+    "personalBests": {
+      "title": "My Personal Bests",
+      "text": "Pick a skill. Write your score each week. Circle every new best. The only person you're racing is you.",
+      "ideas": "Ideas: free throws out of 10, skips in a minute, times tables in a minute, spelling words, pages read."
+    },
+    "safetyHand": {
+      "title": "My Safety Hand",
+      "text": "Trace your hand. On each finger, write a grown-up you can tell anything. At least one should not live at your house."
+    },
+    "knowByHeart": {
+      "title": "Things I Know By Heart",
+      "text": "Fill it in with your grown-up. Practise one a day until you can say them all without looking.",
+      "password": "Our family password is a silly phrase (like 'purple kangaroo'). Only family and grown-ups allowed to pick me up know it. No password? I don't go."
+    },
+    "whatIf": {
+      "title": "What If? Cards",
+      "text": "Cut them out. Pull one out at dinner or in the car. Say what you'd do now, and who you'd tell later. Then test your grown-up."
+    },
+    "techRules": {
+      "title": "Our Tech Rules",
+      "text": "Tick the ones your family agrees on. Add your own.",
+      "extra": "Our extra rules:",
+      "grownUpSignature": "Grown-up:",
+      "mySignature": "Me:"
+    },
+    "calmPlan": {
+      "title": "My Calm-Down Plan",
+      "text": "Fill this in on a calm day. When a big feeling comes, check your number and follow your plan.",
+      "breathing": "Flower and candle breathing: smell the flower (slow breath in through your nose)... blow out the candle (long breath out). Five times."
+    }
+  },
+  "whatIfStories": [
+    1,
+    4,
+    5,
+    3,
+    6,
+    7,
+    8,
+    9,
+    10,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    29,
+    30,
+    31
+  ],
+  "help": {
+    "title": "Who can help",
+    "intro": "You're never on your own. Tell a grown-up on your Safety Hand. You can also call:",
+    "kids": [
+      {
+        "name": "000",
+        "number": "000",
+        "text": "If someone is hurt or in danger right now."
+      },
+      {
+        "name": "Kids Helpline",
+        "number": "1800 55 1800",
+        "text": "Free, any time, day or night. Kids can call by themselves and talk about anything, including stuff about a friend.",
+        "web": "kidshelpline.com.au"
+      }
+    ],
+    "grownUps": [
+      {
+        "name": "Parentline Victoria (parenting support)",
+        "contact": "13 22 89",
+        "isPhone": true
+      },
+      {
+        "name": "Child Protection Crisis Line, Victoria (24/7, if you're worried about a child's safety)",
+        "contact": "13 12 78",
+        "isPhone": true
+      },
+      {
+        "name": "Bravehearts Information & Support Line (child safety, weekdays)",
+        "contact": "1800 272 831",
+        "isPhone": true
+      },
+      {
+        "name": "eSafety Commissioner (report online abuse, parent guides to games)",
+        "contact": "esafety.gov.au",
+        "isPhone": false
+      },
+      {
+        "name": "Poisons Information Centre (24/7)",
+        "contact": "13 11 26",
+        "isPhone": true
+      }
+    ],
+    "furtherReadingTitle": "Further free reading",
+    "furtherReading": [
+      "raisingchildren.net.au: school-age friendships, teasing, stealing, anger, sibling fighting and body safety",
+      "esafety.gov.au/parents: plain-English guides to Roblox, Minecraft, YouTube, group chats and parental controls",
+      "bravehearts.org.au: 'Ditto' body safety resources for kids and parents",
+      "Library: Some Secrets Should Never Be Kept by Jayneen Sanders (a picture book on body safety)",
+      "Speech Pathology Australia (speechpathologyaustralia.org.au): plain-English information on stuttering"
+    ],
+    "disclaimer": "Services and phone numbers are for Victoria, Australia and were checked in October 2026. This book is general information, not professional advice. If you're worried about your child's safety or wellbeing, speak to your GP, their school or one of the services above."
+  },
+  "characters": [
+    {
+      "key": "alex",
+      "name": "Alex",
+      "skin": "#F6DCC4",
+      "hair": "#7A7A7A",
+      "hairStyle": "messy",
+      "top": "#FFFFFF",
+      "pocket": "#F2C230",
+      "legs": "#FFFFFF"
+    },
+    {
+      "key": "zara",
+      "name": "Zara",
+      "skin": "#B07A55",
+      "hair": "#1E1A18",
+      "hairStyle": "puffs",
+      "top": "#FFFFFF",
+      "stripes": "#9A7FD1",
+      "legs": "#FFFFFF"
+    },
+    {
+      "key": "sam",
+      "name": "Sam",
+      "skin": "#F2D2B6",
+      "hair": "#8A8A8A",
+      "hairStyle": "messy",
+      "top": "#86D0F2",
+      "legs": "#FFFFFF",
+      "glasses": true
+    },
+    {
+      "key": "kai",
+      "name": "Kai",
+      "skin": "#E3B88E",
+      "hair": "#151515",
+      "hairStyle": "cap",
+      "top": "#F7A26B",
+      "number": "7",
+      "legs": "#FFFFFF"
+    },
+    {
+      "key": "ruby",
+      "name": "Ruby",
+      "skin": "#F8E1D0",
+      "hair": "#F1E3C2",
+      "hairStyle": "ponytail",
+      "top": "#A8D8A0",
+      "legs": "#FFFFFF",
+      "freckles": true
+    },
+    {
+      "key": "theo",
+      "name": "Theo",
+      "skin": "#8A5A3C",
+      "hair": "#121010",
+      "hairStyle": "short",
+      "top": "#FFFFFF",
+      "pocket": "#F08C8C",
+      "legs": "#FFFFFF"
+    },
+    {
+      "key": "mia",
+      "name": "Mia",
+      "skin": "#D9A577",
+      "hair": "#151515",
+      "hairStyle": "long",
+      "top": "#F7B6C8",
+      "legs": "#F7B6C8"
+    },
+    {
+      "key": "kid2",
+      "name": "Another kid",
+      "shortName": "A kid",
+      "skin": "#E6C3A3",
+      "hair": "#151515",
+      "hairStyle": "short",
+      "top": "#FFFFFF",
+      "pocket": "#C9CDD2",
+      "legs": "#FFFFFF"
+    },
+    {
+      "key": "brother",
+      "name": "My little brother",
+      "shortName": "My brother",
+      "skin": "#F6DCC4",
+      "hair": "#7A7A7A",
+      "hairStyle": "messy",
+      "top": "#DADADA",
+      "legs": "#FFFFFF",
+      "height": 0.85
+    },
+    {
+      "key": "older",
+      "name": "Older kid",
+      "shortName": "An older kid",
+      "skin": "#EBC7A6",
+      "hair": "#151515",
+      "hairStyle": "short",
+      "top": "#FFFFFF",
+      "pocket": "#C9CDD2",
+      "legs": "#FFFFFF",
+      "height": 1.18
+    },
+    {
+      "key": "mum",
+      "name": "Mum",
+      "skin": "#F6DCC4",
+      "hair": "#4A4A4A",
+      "hairStyle": "long",
+      "top": "#FFFFFF",
+      "legs": "#FFFFFF",
+      "height": 1.35
+    },
+    {
+      "key": "dad",
+      "name": "Dad",
+      "skin": "#F0D0B4",
+      "hair": "#151515",
+      "hairStyle": "short",
+      "top": "#C5C8E8",
+      "legs": "#FFFFFF",
+      "height": 1.38
+    },
+    {
+      "key": "teacher",
+      "name": "Ms P",
+      "skin": "#E9C6A8",
+      "hair": "#4A4A4A",
+      "hairStyle": "long",
+      "top": "#D5ECE6",
+      "legs": "#FFFFFF",
+      "height": 1.35
+    },
+    {
+      "key": "worker",
+      "name": "Canteen worker",
+      "shortName": "The canteen worker",
+      "skin": "#C99A74",
+      "hair": "#4A4A4A",
+      "hairStyle": "long",
+      "top": "#FFE7A8",
+      "legs": "#FFFFFF",
+      "height": 1.35
+    },
+    {
+      "key": "zaramum",
+      "name": "Zara's mum",
+      "skin": "#9C6B4A",
+      "hair": "#1E1A18",
+      "hairStyle": "long",
+      "top": "#E3D4F2",
+      "legs": "#FFFFFF",
+      "height": 1.35
+    },
+    {
+      "key": "grownup",
+      "name": "A grown-up",
+      "skin": "#EDCDB0",
+      "hair": "#151515",
+      "hairStyle": "short",
+      "top": "#C9CDD2",
+      "legs": "#FFFFFF",
+      "height": 1.38
+    },
+    {
+      "key": "uncle",
+      "name": "My great-uncle",
+      "skin": "#EED3BA",
+      "hair": "#9A9A9A",
+      "hairStyle": "short",
+      "top": "#F5D6A8",
+      "legs": "#FFFFFF",
+      "height": 1.36
+    },
+    {
+      "key": "stranger",
+      "name": "A man at the park",
+      "shortName": "A man",
+      "skin": "#E1BC99",
+      "hair": "#151515",
+      "hairStyle": "short",
+      "top": "#B9D3A2",
+      "legs": "#FFFFFF",
+      "height": 1.38
+    }
+  ]
+}
